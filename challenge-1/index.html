@@ -28,7 +28,7 @@
 
   <body>
     <!-- login -->
-    <div class="text-center form-signin d-flex align-items-center">
+    <div class="text-center form-signin d-flex align-items-center d-none">
       <form class="col-10 col-md-6 col-lg-4 mx-auto">
         <img
           class="mb-4"
@@ -116,9 +116,9 @@
         <p class="mt-5 mb-3 text-muted">© 2017–2021</p>
       </form>
     </div>
-    
+
     <!-- main app -->
-    <div id="app" class="d-none">
+    <div id="app" class="">
       <div id="sidebar" class="active">
         <div class="sidebar-wrapper active">
           <div class="sidebar-header">
@@ -265,16 +265,88 @@
           </nav>
         </header>
 
+        <!-- Table heading -->
         <div class="page-heading">
-          <div class="page-title">
+          <div class="page-title mb-3">
             <div class="row">
-              <div class="col-12 col-md-6 order-md-1 order-last">
+              <div class="w-100 col-md-6 order-md-1 order-last">
                 <h3>Entity Table</h3>
-                <p class="text-subtitle text-muted">Show your data here</p>
+                <div class="d-flex">
+                  <p class="text-subtitle text-muted col-12 col-md-6 col-lg-9">
+                    Show your data here
+                  </p>
+                  <button
+                    class="btn btn-sm btn-primary ml-auto col-12 col-md-6 col-lg-3"
+                  >
+                    Create New Room
+                  </button>
+                </div>
               </div>
             </div>
           </div>
+
+          <!-- form data -->
           <section class="section">
+            <div class="card">
+              <div class="card-header">Create New Room</div>
+              <div class="card-body">
+                <form>
+                  <div class="mb-3">
+                    <label for="name" class="form-label">Name</label>
+                    <input type="text" class="form-control" id="name" />
+                  </div>
+                  <div class="mb-3">
+                    <label for="capacity" class="form-label">Room Capacity</label>
+                    <input type="number" class="form-control" id="capacity" />
+                  </div>
+                  <div class="mb-3">
+                    <label for="name" class="form-label">Category</label>
+                    <select
+                      class="form-select"
+                      aria-label="Default select example"
+                    >
+                      <option value="1" selected>Guest House</option>
+                      <option value="2">Hotel</option>
+                      <option value="3">Resort</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="facility" class="form-label">Facility</label>
+                    <textarea
+                      class="form-control"
+                      id="facility"
+                      rows="3"
+                    ></textarea>
+                    <div id="facilityHelp" class="form-text">
+                      Write all facility that your room have, such as AC , free
+                      internet etc.
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="price" />
+                    <div id="facilityHelp" class="form-text">
+                      Write price for this room for one day.
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label for="imgUrl" class="form-label">Image Link</label>
+                    <input type="text" class="form-control" id="imgUrl" />
+                  </div>
+                  <div class="mb-3">
+                    <label for="location" class="form-label"
+                      >Location Address</label
+                    >
+                    <input type="text" class="form-control" id="location" />
+                  </div>
+                  <button type="submit" class="btn btn-primary col-12 p-2">Submit</button>
+                </form>
+              </div>
+            </div>
+          </section>
+
+          <!-- data table -->
+          <section class="section d-none">
             <div class="card">
               <div class="card-header">Entity List</div>
               <div class="card-body">
@@ -306,6 +378,7 @@
         </div>
       </div>
     </div>
+
     <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
 
