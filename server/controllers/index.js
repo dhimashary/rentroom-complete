@@ -1,7 +1,7 @@
 const UserController = require("./userController")
-const RoomController = require("./roomController")
+const AccommodationController = require("./accommodationController")
 
 module.exports = {
   UserController,
-  RoomController
+  AccommodationController
 }
