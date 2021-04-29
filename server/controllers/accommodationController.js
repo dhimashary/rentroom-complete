@@ -1,6 +1,5 @@
 const { Accommodation, Type, User } = require("../models");
 const createError = require("http-errors");
-const accommodation = require("../models/accommodation");
 
 class AccommodationController {
   static create(req, res, next) {

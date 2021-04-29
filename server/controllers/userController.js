@@ -17,7 +17,7 @@ class UserController {
           { id, email, role },
           process.env.JWT_SECRET
         );
-        res.status(201).json({ accessToken });
+        res.status(201).json({ accessToken, email, role });
       })
       .catch(next);
   }
@@ -54,7 +54,7 @@ class UserController {
             { id, email, role },
             process.env.JWT_SECRET
           );
-          res.status(200).json({ accessToken });
+          res.status(200).json({ accessToken, email, role });
         } else {
           throw createError(400, "Invalid Email/Password");
         }
