@@ -1,7 +1,10 @@
 const router = require("express").Router();
 const { Auth } = require("../middlewares");
-const { AccommodationController } = require("../controllers/index")
+const { AccommodationController } = require("../controllers/index");
 
-router.post("/", Auth.authorizationStaff, AccommodationController);
+router.get("/", AccommodationController.findAll);
+router.post("/", Auth.authorizationAdminOrStaff, AccommodationController.create);
+router.delete("/:accommodationId", Auth.authorizationAdminOrAuthor, AccommodationController.delete);
+router.put("/:accommodationId", Auth.authorizationAdminOrAuthor, AccommodationController.update);
 
 module.exports = router

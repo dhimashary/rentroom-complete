@@ -80,5 +80,8 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Accommodation",
     }
   );
+  Accommodation.afterCreate((accomodation) => {
+    return accomodation.reload()
+  })
   return Accommodation;
 };

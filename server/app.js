@@ -10,7 +10,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/users/", userRoutes);
 app.use(Auth.authentication);
-app.use("/accomodations/", accommodationRoutes);
+app.use("/accommodations/", accommodationRoutes);
 app.use(errorHandler);
 
 module.exports = app;
