@@ -160,7 +160,7 @@
               <li class="sidebar-item active">
                 <a href="table.html" class="sidebar-link">
                   <i class="bi bi-grid-fill"></i>
-                  <span>Entity 1</span>
+                  <span>Accomodation</span>
                 </a>
               </li>
             </ul>
@@ -294,15 +294,17 @@
           <div class="page-title mb-3">
             <div class="row">
               <div class="w-100 col-md-6 order-md-1 order-last">
-                <h3>Entity Table</h3>
+                <h3>Accomodation List</h3>
                 <div class="d-flex">
                   <p class="text-subtitle text-muted col-12 col-md-6 col-lg-9">
                     Show your data here
                   </p>
                   <button
-                    class="btn btn-sm btn-primary ml-auto col-12 col-md-6 col-lg-3"
+                    class="btn btn-sm btn-primary ml-auto col-12 col-md-6 col-lg-3 hide-form"
+                    onclick="toggleButtonAccommodationForm()"
+                    id="buttonAccommodationForm"
                   >
-                    Create New Room
+                    Create New Accommodation
                   </button>
                 </div>
               </div>
@@ -312,8 +314,8 @@
           <!-- CRUD NOTIF -->
           <div class="container" id="mainNotification">
             <div class="row flex-column align-items-center">
-              <div class="alert alert-danger mt-5" role="alert">
-                A simple danger alert—check it out! lore
+              <div class="alert alert-danger mt-5" role="alert" id="notificationContent">
+                Oops Something Wrong ! :(
               </div>
             </div>
           </div>
@@ -321,28 +323,46 @@
           <!-- form data -->
           <section class="section" id="addForm">
             <div class="card">
-              <div class="card-header">Create New Room</div>
+              <div class="card-header" id="accommodationFormHeader">
+                Create New Accommodation
+              </div>
               <div class="card-body">
-                <form>
+                <form id="accommodationForm">
                   <div class="mb-3">
                     <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" />
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      required
+                      value="Pururung suite"
+                    />
                   </div>
                   <div class="mb-3">
-                    <label for="capacity" class="form-label"
+                    <label for="roomCapacity" class="form-label"
                       >Room Capacity</label
                     >
-                    <input type="number" class="form-control" id="capacity" />
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="roomCapacity"
+                      value="4"
+                      required
+                    />
                   </div>
                   <div class="mb-3">
                     <label for="name" class="form-label">Category</label>
                     <select
+                      id="typeId"
                       class="form-select"
                       aria-label="Default select example"
+                      required
                     >
-                      <option value="1" selected>Guest House</option>
-                      <option value="2">Hotel</option>
-                      <option value="3">Resort</option>
+                      <option value="2" selected>Guest House</option>
+                      <option value="3">Hotel</option>
+                      <option value="4">Apartment</option>
+                      <option value="5">Hostel</option>
+                      <option value="6">Error</option>
                     </select>
                   </div>
                   <div class="mb-3">
@@ -351,28 +371,47 @@
                       class="form-control"
                       id="facility"
                       rows="3"
-                    ></textarea>
+                      required
+                    >AC, PS4, WIFI</textarea>
                     <div id="facilityHelp" class="form-text">
-                      Write all facility that your room have, such as AC , free
-                      internet etc.
+                      Write all facility that your accommodation have, such as
+                      AC , free internet etc.
                     </div>
                   </div>
                   <div class="mb-3">
                     <label for="price" class="form-label">Price</label>
-                    <input type="number" class="form-control" id="price" />
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="price"
+                      value="12345555"
+                      required
+                    />
                     <div id="facilityHelp" class="form-text">
-                      Write price for this room for one day.
+                      Write price for this accommodation for one day.
                     </div>
                   </div>
                   <div class="mb-3">
                     <label for="imgUrl" class="form-label">Image Link</label>
-                    <input type="text" class="form-control" id="imgUrl" />
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="imgUrl"
+                      value="https://dereizvilla.com/wp-content/uploads/2017/11/IMG-20200706-WA0020-1110x623.jpg"
+                      required
+                    />
                   </div>
                   <div class="mb-3">
                     <label for="location" class="form-label"
                       >Location Address</label
                     >
-                    <input type="text" class="form-control" id="location" />
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="location"
+                      value="jakarta"
+                      required
+                    />
                   </div>
                   <button type="submit" class="btn btn-primary col-12 p-2">
                     Submit
@@ -392,7 +431,7 @@
                     <tr>
                       <th>Name</th>
                       <th>Facility</th>
-                      <th>Room Capacity</th>
+                      <th>Capacity</th>
                       <th>Image</th>
                       <th>Author</th>
                       <th>Location</th>
@@ -457,7 +496,26 @@
       }
 
       function generateAccomodationRow(accommodation) {
-        const { name, price, location, imgUrl, facility, roomCapacity, User, Type } = accommodation
+        const {
+          name,
+          price,
+          location,
+          imgUrl,
+          facility,
+          roomCapacity,
+          User,
+          Type,
+        } = accommodation;
+        let availableAction;
+        if (
+          User.email === localStorage.getItem("email") ||
+          localStorage.getItem("role") === "admin"
+        ) {
+          availableAction = `<span class="badge bg-success d-block mb-2 fs-6">Update</span>
+            <span class="badge bg-warning d-block fs-6">Delete</span>`;
+        } else {
+          availableAction = "-";
+        }
         return `<tr>
           <td>${name}</td>
           <td>${facility.slice(0, 100) + "..."}</td>
@@ -470,19 +528,18 @@
           <td>Rp. ${price}</td>
           <td>${Type.name}</td>
           <td>
-            <span class="badge bg-success d-block mb-2 fs-6">Update</span>
-            <span class="badge bg-warning d-block fs-6">Delete</span>
+            ${availableAction}
           </td>
         </tr>`;
       }
 
       function generateAccommodationsTable(accommodations) {
-        let accommodationsTable = ""
-        $("#accommodationRows").empty()
-        accommodations.forEach(accommodation => {
-          accommodationsTable += generateAccomodationRow(accommodation)
-        })
-        $("#accommodationRows").append(accommodationsTable)
+        let accommodationsTable = "";
+        $("#accommodationRows").empty();
+        accommodations.forEach((accommodation) => {
+          accommodationsTable += generateAccomodationRow(accommodation);
+        });
+        $("#accommodationRows").append(accommodationsTable);
       }
 
       function changeCurrentEmailAndRole(data) {
@@ -497,6 +554,23 @@
         $("#mainTable").show();
         $("#addForm").hide();
         getAccommodations();
+      }
+
+      function toggleButtonAccommodationForm() {
+        const toggleButton = $("#buttonAccommodationForm");
+        if (toggleButton.hasClass("hide-form")) {
+          toggleButton.removeClass("hide-form");
+          toggleButton.text("Show Accommodation List");
+          $("#app").show();
+          $("#mainTable").hide();
+          $("#addForm").show();
+        } else {
+          toggleButton.addClass("hide-form");
+          toggleButton.text("Create New Accommodation");
+          $("#app").show();
+          $("#mainTable").show();
+          $("#addForm").hide();
+        }
       }
 
       function signOut() {
@@ -551,6 +625,44 @@
           });
       }
 
+      function getAccommodationFormInput() {
+        const newAccommodation = {}
+        // const formInput = new FormData($("#accommodationForm"))
+        const formInputChildren = $("#accommodationForm").children();
+        $("#accommodationForm input, select, textarea").each(function () {
+          var input = $(this); // This is the jquery object of the input, do what you will
+          console.log(input.attr("id"))
+          console.log(input.val())
+          if (input.attr("type") === "number") {
+            newAccommodation[input.attr("id")] = Number(input.val())
+          } else {
+            newAccommodation[input.attr("id")] = input.val()
+          }
+        });
+        console.log(newAccommodation)
+        return newAccommodation
+      }
+
+      function createNewAccommodation () {
+        const newAccommodation = getAccommodationFormInput()
+        axios({
+          method: "POST",
+          url: `${baseUrl}/accommodations`,
+          headers: {
+            access_token: localStorage.getItem("access_token")
+          },
+          data: newAccommodation
+        })
+          .then(({ data }) => {
+            setAppNotif("alert-success", "Create new Accommodation Success")
+          })
+          .catch(err => {
+            setAppNotif("alert-danger", err.response.data.message)
+          })
+          .finally(_ => {
+            // $("#accommodationForm").trigger("reset")
+          })
+      }
       function getAccommodations() {
         axios({
           method: "GET",
@@ -560,7 +672,7 @@
           },
         })
           .then(({ data }) => {
-            generateAccommodationsTable(data)
+            generateAccommodationsTable(data);
           })
           .catch((err) => {
             console.log(err);
@@ -583,22 +695,27 @@
       }
 
       function setAppNotif(status, message) {
-        let notifId;
-        if (status === "error") {
-          notifId = $("#notifFail");
+        let notifId = $("#mainNotification");
+        let content = $("#notificationContent")
+        if (status === "alert-success") {
+          content.removeClass("alert-danger")
         } else {
-          notifId = $("#notifSuccess");
+          content.removeClass("alert-success")
         }
-        notifId.text(message);
-        notifId.removeClass("d-none");
+        notifId.show()
+        content.addClass(status)
+        content.text(message)
         setTimeout(() => {
-          notifId.text("");
-          notifId.addClass("d-none");
+          notifId.hide();
         }, 2000);
       }
 
       $(document).ready(function () {
         if (localStorage.access_token) {
+          changeCurrentEmailAndRole({
+            email: localStorage.email,
+            role: localStorage.role,
+          });
           showMainPage();
         }
         $("#formLogin").on("submit", (e) => {
@@ -608,6 +725,10 @@
         $("#formRegister").on("submit", (e) => {
           e.preventDefault();
           register();
+        });
+        $("#accommodationForm").on("submit", (e) => {
+          e.preventDefault();
+          createNewAccommodation();
         });
       });
     </script>
