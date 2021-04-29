@@ -314,7 +314,11 @@
           <!-- CRUD NOTIF -->
           <div class="container" id="mainNotification">
             <div class="row flex-column align-items-center">
-              <div class="alert alert-danger mt-5" role="alert" id="notificationContent">
+              <div
+                class="alert alert-danger mt-5"
+                role="alert"
+                id="notificationContent"
+              >
                 Oops Something Wrong ! :(
               </div>
             </div>
@@ -372,7 +376,9 @@
                       id="facility"
                       rows="3"
                       required
-                    >AC, PS4, WIFI</textarea>
+                    >
+AC, PS4, WIFI</textarea
+                    >
                     <div id="facilityHelp" class="form-text">
                       Write all facility that your accommodation have, such as
                       AC , free internet etc.
@@ -461,12 +467,12 @@
                       <td>Rp. 1.900.000</td>
                       <td>Apartment</td>
                       <td>
-                        <span class="badge bg-success d-block mb-2 fs-6"
-                          >Update</span
-                        >
-                        <span class="badge bg-warning d-block fs-6"
-                          >Delete</span
-                        >
+                        <button class="btn bg-success d-block mb-2 fs-6">
+                          Update
+                        </button>
+                        <button class="btn bg-warning d-block fs-6">
+                          Delete
+                        </button>
                       </td>
                     </tr>
                   </tbody>
@@ -497,6 +503,7 @@
 
       function generateAccomodationRow(accommodation) {
         const {
+          id,
           name,
           price,
           location,
@@ -511,8 +518,8 @@
           User.email === localStorage.getItem("email") ||
           localStorage.getItem("role") === "admin"
         ) {
-          availableAction = `<span class="badge bg-success d-block mb-2 fs-6">Update</span>
-            <span class="badge bg-warning d-block fs-6">Delete</span>`;
+          availableAction = `<button class="btn btn-success d-block mb-2 fs-6 col-12">Update</button>
+            <button class="btn btn-warning d-block fs-6 col-12" onclick="deleteAccommodation(${id})">Delete</button>`;
         } else {
           availableAction = "-";
         }
@@ -553,6 +560,7 @@
         $("#app").show();
         $("#mainTable").show();
         $("#addForm").hide();
+        $("#mainNotification").hide();
         getAccommodations();
       }
 
@@ -626,43 +634,44 @@
       }
 
       function getAccommodationFormInput() {
-        const newAccommodation = {}
+        const newAccommodation = {};
         // const formInput = new FormData($("#accommodationForm"))
         const formInputChildren = $("#accommodationForm").children();
         $("#accommodationForm input, select, textarea").each(function () {
           var input = $(this); // This is the jquery object of the input, do what you will
-          console.log(input.attr("id"))
-          console.log(input.val())
+          console.log(input.attr("id"));
+          console.log(input.val());
           if (input.attr("type") === "number") {
-            newAccommodation[input.attr("id")] = Number(input.val())
+            newAccommodation[input.attr("id")] = Number(input.val());
           } else {
-            newAccommodation[input.attr("id")] = input.val()
+            newAccommodation[input.attr("id")] = input.val();
           }
         });
-        console.log(newAccommodation)
-        return newAccommodation
+        console.log(newAccommodation);
+        return newAccommodation;
       }
 
-      function createNewAccommodation () {
-        const newAccommodation = getAccommodationFormInput()
+      function createNewAccommodation() {
+        const newAccommodation = getAccommodationFormInput();
         axios({
           method: "POST",
           url: `${baseUrl}/accommodations`,
           headers: {
-            access_token: localStorage.getItem("access_token")
+            access_token: localStorage.getItem("access_token"),
           },
-          data: newAccommodation
+          data: newAccommodation,
         })
           .then(({ data }) => {
-            setAppNotif("alert-success", "Create new Accommodation Success")
+            setAppNotif("alert-success", "Create new Accommodation Success");
           })
-          .catch(err => {
-            setAppNotif("alert-danger", err.response.data.message)
+          .catch((err) => {
+            setAppNotif("alert-danger", err.response.data.message);
           })
-          .finally(_ => {
+          .finally((_) => {
             // $("#accommodationForm").trigger("reset")
-          })
+          });
       }
+
       function getAccommodations() {
         axios({
           method: "GET",
@@ -694,17 +703,38 @@
         }, 2000);
       }
 
+      function deleteAccommodation(id) {
+        const deleteConfirmation = confirm(
+          "Are you sure want to delete this Accommodation?"
+        );
+        if (deleteConfirmation) {
+          axios({
+            method: "DELETE",
+            url: `${baseUrl}/accommodations/${id}`,
+            headers: {
+              access_token: localStorage.getItem("access_token"),
+            },
+          })
+            .then(({ data }) => {
+              showMainPage();
+            })
+            .catch((err) => {
+              setAppNotif("alert-danger", err.response.data);
+            });
+        }
+      }
+
       function setAppNotif(status, message) {
         let notifId = $("#mainNotification");
-        let content = $("#notificationContent")
+        let content = $("#notificationContent");
         if (status === "alert-success") {
-          content.removeClass("alert-danger")
+          content.removeClass("alert-danger");
         } else {
-          content.removeClass("alert-success")
+          content.removeClass("alert-success");
         }
-        notifId.show()
-        content.addClass(status)
-        content.text(message)
+        notifId.show();
+        content.addClass(status);
+        content.text(message);
         setTimeout(() => {
           notifId.hide();
         }, 2000);
