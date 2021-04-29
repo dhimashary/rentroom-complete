@@ -113,6 +113,7 @@ class AccommodationController {
     } = req.body;
     let updatedAccommodation = null;
     let type;
+    console.log(req.body)
     Accommodation.update(
       {
         name,
@@ -125,13 +126,13 @@ class AccommodationController {
       },
       {
         where: {
-          id: +req.params.accommodationId,
+          id: Number(req.params.accommodationId),
         },
         returning: true,
       }
     )
       .then((accommodation) => {
-        console.log(accommodation, req.params)
+        console.log(accommodation, req.params, Number(req.params.accommodationId))
         if (accommodation[0] === 0) {
           throw createError(404, "Accommodation with this ID does not exist");
         } else {

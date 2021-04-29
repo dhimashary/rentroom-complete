@@ -325,7 +325,7 @@
           </div>
 
           <!-- form data -->
-          <section class="section" id="addForm">
+          <section class="section" id="accommodationFormContainer">
             <div class="card">
               <div class="card-header" id="accommodationFormHeader">
                 Create New Accommodation
@@ -492,6 +492,7 @@ AC, PS4, WIFI</textarea
     <script src="assets/js/main.js"></script>
     <script>
       const baseUrl = "http://localhost:3000";
+      let currentPage, updatedId
     </script>
     <script>
       function setLocalStorage(data) {
@@ -518,7 +519,7 @@ AC, PS4, WIFI</textarea
           User.email === localStorage.getItem("email") ||
           localStorage.getItem("role") === "admin"
         ) {
-          availableAction = `<button class="btn btn-success d-block mb-2 fs-6 col-12">Update</button>
+          availableAction = `<button class="btn btn-success d-block mb-2 fs-6 col-12" onclick="showUpdateForm(${id})">Update</button>
             <button class="btn btn-warning d-block fs-6 col-12" onclick="deleteAccommodation(${id})">Delete</button>`;
         } else {
           availableAction = "-";
@@ -559,7 +560,7 @@ AC, PS4, WIFI</textarea
         $("#loginPage").hide();
         $("#app").show();
         $("#mainTable").show();
-        $("#addForm").hide();
+        $("#accommodationFormContainer").hide();
         $("#mainNotification").hide();
         getAccommodations();
       }
@@ -571,13 +572,49 @@ AC, PS4, WIFI</textarea
           toggleButton.text("Show Accommodation List");
           $("#app").show();
           $("#mainTable").hide();
-          $("#addForm").show();
+          $("#accommodationFormContainer").show();
+          $("#accommodationFormHeader").text("Add New Accommodation");
         } else {
           toggleButton.addClass("hide-form");
           toggleButton.text("Create New Accommodation");
           $("#app").show();
           $("#mainTable").show();
-          $("#addForm").hide();
+          $("#accommodationFormHeader").text("Show Accommodation");
+          $("#accommodationFormContainer").hide();
+        }
+      }
+
+      async function showUpdateForm(id) {
+        currentPage = "update"
+        updatedId = id
+        try {
+          const toggleButton = $("#buttonAccommodationForm");
+          $("#app").show();
+          $("#mainTable").hide();
+          $("#accommodationFormContainer").show();
+          toggleButton.removeClass("hide-form");
+          toggleButton.text("Show Accommodation List");
+          $("#accommodationFormHeader").text("Update Accommodation");
+          console.log(id);
+          const accommodation = await getAccommodationById(id);
+          const {
+            name,
+            roomCapacity,
+            location,
+            Type,
+            price,
+            facility,
+            imgUrl,
+          } = accommodation;
+          $("#name").val(name);
+          $("#roomCapacity").val(roomCapacity);
+          $("#price").val(price);
+          $("#typeId").val(Type.id);
+          $("#location").val(location);
+          $("#facility").text(facility);
+          $("#imgUrl").val(imgUrl);
+        } catch (error) {
+          setAppNotif("alert-danger", "Oops Something is Wrong ! :(");
         }
       }
 
@@ -663,12 +700,14 @@ AC, PS4, WIFI</textarea
         })
           .then(({ data }) => {
             setAppNotif("alert-success", "Create new Accommodation Success");
+            toggleButtonAccommodationForm();
+            showMainPage();
           })
           .catch((err) => {
             setAppNotif("alert-danger", err.response.data.message);
           })
           .finally((_) => {
-            // $("#accommodationForm").trigger("reset")
+            $("#accommodationForm").trigger("reset")
           });
       }
 
@@ -703,6 +742,21 @@ AC, PS4, WIFI</textarea
         }, 2000);
       }
 
+      async function getAccommodationById(id) {
+        try {
+          const accommodation = await axios({
+            method: "GET",
+            url: `${baseUrl}/accommodations/${id}`,
+            headers: {
+              access_token: localStorage.getItem("access_token"),
+            },
+          });
+          return accommodation.data;
+        } catch (error) {
+          setAppNotif("alert-danger", error.response.data);
+        }
+      }
+
       function deleteAccommodation(id) {
         const deleteConfirmation = confirm(
           "Are you sure want to delete this Accommodation?"
@@ -735,11 +789,37 @@ AC, PS4, WIFI</textarea
         notifId.show();
         content.addClass(status);
         content.text(message);
+        console.log("IM HERE")
         setTimeout(() => {
           notifId.hide();
-        }, 2000);
+        }, 20000);
       }
 
+      function updateAccommodation(id) {
+        const updatedAccommodation = getAccommodationFormInput();
+        axios({
+          method: "PUT",
+          url: `${baseUrl}/accommodations/${id}`,
+          headers: {
+            access_token: localStorage.getItem("access_token"),
+          },
+          data: updatedAccommodation,
+        })
+          .then(({ data }) => {
+            setAppNotif("alert-success", "Update Accommodation Success");
+            toggleButtonAccommodationForm();
+            showMainPage();
+          })
+          .catch((err) => {
+            setAppNotif("alert-danger", err.response.data.message);
+          })
+          .finally((_) => {
+            updatedId = null
+            currentPage = null
+            $("#accommodationForm").trigger("reset")
+          })
+      }
+      
       $(document).ready(function () {
         if (localStorage.access_token) {
           changeCurrentEmailAndRole({
@@ -758,7 +838,12 @@ AC, PS4, WIFI</textarea
         });
         $("#accommodationForm").on("submit", (e) => {
           e.preventDefault();
-          createNewAccommodation();
+          if (currentPage !== "update") {
+            createNewAccommodation();
+          } else {
+            console.log(updatedId)
+            updateAccommodation(+updatedId)
+          }
         });
       });
     </script>
