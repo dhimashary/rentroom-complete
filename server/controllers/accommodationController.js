@@ -61,6 +61,28 @@ class AccommodationController {
       .catch(next);
   }
 
+  static findById(req, res, next) {
+    Accommodation.findByPk(req.params.accommodationId, {
+      include: [
+        {
+          model: Type,
+          attributes: ["id", "name"],
+        },
+        {
+          model: User,
+          attributes: ["id", "email"],
+        },
+      ],
+    })
+      .then((result) => {
+        if (result === null) {
+          throw createError(404, "Accommodation not found !")
+        }
+        res.status(200).json(result);
+      })
+      .catch(next);
+  }
+
   static delete(req, res, next) {
     Accommodation.destroy({
       where: {
