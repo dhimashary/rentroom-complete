@@ -27,98 +27,118 @@
   </head>
 
   <body>
+    <div class="container" id="notification">
+      <div class="row flex-column align-items-center">
+        <div
+          class="alert alert-danger col-6 d-none mt-5"
+          role="alert"
+          id="notifFail"
+        >
+          A simple danger alert—check it out!
+        </div>
+        <div
+          class="alert alert-success col-6 d-none"
+          role="alert"
+          id="notifSuccess"
+        >
+          A simple success alert—check it out!
+        </div>
+      </div>
+    </div>
     <!-- login -->
-    <div class="text-center form-signin d-flex align-items-center d-none">
-      <form class="col-10 col-md-6 col-lg-4 mx-auto">
-        <img
-          class="mb-4"
-          src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg"
-          alt=""
-          width="72"
-          height="57"
-        />
-        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-
-        <div class="form-floating">
-          <input
-            type="email"
-            class="form-control"
-            id="floatingInput"
-            placeholder="name@example.com"
-            autocomplete="off"
+    <div id="loginPage">
+      <div class="text-center form-signin d-flex align-items-center">
+        <form class="col-10 col-md-6 col-lg-4 mx-auto" id="formLogin">
+          <img
+            class="mb-4"
+            src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg"
+            alt=""
+            width="72"
+            height="57"
           />
-          <label for="floatingInput">Email address</label>
-        </div>
-        <div class="form-floating">
-          <input
-            type="password"
-            class="form-control"
-            id="floatingPassword"
-            placeholder="Password"
-            autocomplete="off"
-          />
-          <label for="floatingPassword">Password</label>
-        </div>
+          <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
-        <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me" /> Remember me
-          </label>
-        </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">
-          Sign in
-        </button>
-        <p class="mt-5 mb-3 text-muted">© 2017–2021</p>
-      </form>
+          <div class="form-floating">
+            <input
+              type="email"
+              class="form-control"
+              id="emailLogin"
+              placeholder="name@example.com"
+              autocomplete="off"
+            />
+            <label for="floatingInput">Email address</label>
+          </div>
+          <div class="form-floating">
+            <input
+              type="password"
+              class="form-control"
+              id="passwordLogin"
+              placeholder="Password"
+              autocomplete="off"
+            />
+            <label for="floatingPassword">Password</label>
+          </div>
+
+          <div class="checkbox mb-3">
+            <label>
+              <input type="checkbox" value="remember-me" /> Remember me
+            </label>
+          </div>
+          <button class="w-100 btn btn-lg btn-primary" type="submit">
+            Sign in
+          </button>
+          <p class="mt-5 mb-3 text-muted">© 2017–2021</p>
+        </form>
+      </div>
     </div>
 
     <!-- register -->
-    <div class="text-center form-signin d-flex align-items-center d-none">
-      <form class="col-10 col-md-6 col-lg-4 mx-auto">
-        <img
-          class="mb-4"
-          src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg"
-          alt=""
-          width="72"
-          height="57"
-        />
-        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-
-        <div class="form-floating">
-          <input
-            type="email"
-            class="form-control"
-            id="floatingInput"
-            placeholder="name@example.com"
-            autocomplete="off"
+    <div id="registerPage">
+      <div class="text-center form-signin d-flex align-items-center">
+        <form class="col-10 col-md-6 col-lg-4 mx-auto" id="formRegister">
+          <img
+            class="mb-4"
+            src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg"
+            alt=""
+            width="72"
+            height="57"
           />
-          <label for="floatingInput">Email address</label>
-        </div>
-        <div class="form-floating">
-          <input
-            type="password"
-            class="form-control"
-            id="floatingPassword"
-            placeholder="Password"
-            autocomplete="off"
-          />
-          <label for="floatingPassword">Password</label>
-        </div>
+          <h1 class="h3 mb-3 fw-normal">Register</h1>
 
-        <div class="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me" /> Remember me
-          </label>
-        </div>
-        <button class="w-100 btn btn-lg btn-primary" type="submit">
-          Sign in
-        </button>
-        <p class="mt-5 mb-3 text-muted">© 2017–2021</p>
-      </form>
+          <div class="form-floating">
+            <input
+              type="email"
+              class="form-control"
+              id="emailRegister"
+              placeholder="name@example.com"
+              autocomplete="off"
+              required
+            />
+            <label for="floatingInput">Email address</label>
+          </div>
+          <div class="form-floating mb-3">
+            <input
+              type="password"
+              class="form-control"
+              id="passwordRegister"
+              placeholder="Password"
+              autocomplete="off"
+              pattern=".{6,13}"
+              required
+              title="6 to 13 characters minimum"
+            />
+            <label for="floatingPassword">Password</label>
+          </div>
+          <button class="w-100 btn btn-lg btn-primary" type="submit">
+            Register
+          </button>
+          <p class="mt-5 mb-3 text-muted">© 2017–2021</p>
+        </form>
+      </div>
     </div>
 
     <!-- main app -->
-    <div id="app" class="">
+    <div id="app">
       <div id="sidebar" class="active">
         <div class="sidebar-wrapper active">
           <div class="sidebar-header">
@@ -216,8 +236,12 @@
                   <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
                     <div class="user-menu d-flex">
                       <div class="user-name text-end me-3">
-                        <h6 class="mb-0 text-gray-600">John Doe</h6>
-                        <p class="mb-0 text-sm text-gray-600">Administrator</p>
+                        <h6 class="mb-0 text-gray-600" id="currentEmail">
+                          John Doe
+                        </h6>
+                        <p class="mb-0 text-sm text-gray-600" id="currentRole">
+                          Administrator
+                        </p>
                       </div>
                       <div class="user-img d-flex align-items-center">
                         <div class="avatar avatar-md">
@@ -253,10 +277,10 @@
                       <hr class="dropdown-divider" />
                     </li>
                     <li>
-                      <a class="dropdown-item" href="#"
-                        ><i class="icon-mid bi bi-box-arrow-left me-2"></i>
-                        Logout</a
-                      >
+                      <button class="dropdown-item" onclick="signOut()">
+                        <i class="icon-mid bi bi-box-arrow-left me-2"></i>
+                        sign out
+                      </button>
                     </li>
                   </ul>
                 </div>
@@ -285,8 +309,17 @@
             </div>
           </div>
 
+          <!-- CRUD NOTIF -->
+          <div class="container" id="mainNotification">
+            <div class="row flex-column align-items-center">
+              <div class="alert alert-danger mt-5" role="alert">
+                A simple danger alert—check it out! lore
+              </div>
+            </div>
+          </div>
+
           <!-- form data -->
-          <section class="section">
+          <section class="section" id="addForm">
             <div class="card">
               <div class="card-header">Create New Room</div>
               <div class="card-body">
@@ -296,7 +329,9 @@
                     <input type="text" class="form-control" id="name" />
                   </div>
                   <div class="mb-3">
-                    <label for="capacity" class="form-label">Room Capacity</label>
+                    <label for="capacity" class="form-label"
+                      >Room Capacity</label
+                    >
                     <input type="number" class="form-control" id="capacity" />
                   </div>
                   <div class="mb-3">
@@ -339,14 +374,16 @@
                     >
                     <input type="text" class="form-control" id="location" />
                   </div>
-                  <button type="submit" class="btn btn-primary col-12 p-2">Submit</button>
+                  <button type="submit" class="btn btn-primary col-12 p-2">
+                    Submit
+                  </button>
                 </form>
               </div>
             </div>
           </section>
 
           <!-- data table -->
-          <section class="section d-none">
+          <section class="section" id="mainTable">
             <div class="card">
               <div class="card-header">Entity List</div>
               <div class="card-body">
@@ -354,20 +391,43 @@
                   <thead>
                     <tr>
                       <th>Name</th>
-                      <th>Email</th>
-                      <th>Phone</th>
-                      <th>City</th>
-                      <th>Status</th>
+                      <th>Facility</th>
+                      <th>Room Capacity</th>
+                      <th>Image</th>
+                      <th>Author</th>
+                      <th>Location</th>
+                      <th>Price</th>
+                      <th>Type</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody class="text-sm" id="accommodationRows">
                     <tr>
-                      <td>Dummy</td>
-                      <td>dummy@dummies.com</td>
-                      <td>076 4820 8838</td>
-                      <td>Jakarta</td>
+                      <td>Lorem ipsum dolor sit amet</td>
                       <td>
-                        <span class="badge bg-success">Active</span>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Modi ut, delectus at optio esse adipisci soluta libero
+                        vero est, voluptates assumenda beatae ipsa vel minus
+                        impedit atque, officiis in iure.
+                      </td>
+                      <td>4</td>
+                      <td>
+                        <img
+                          src="https://dereizvilla.com/wp-content/uploads/2017/11/IMG-20200706-WA0020-1110x623.jpg"
+                          class="img img-fluid"
+                        />
+                      </td>
+                      <td>dummy@dummies.com</td>
+                      <td>Jakarta</td>
+                      <td>Rp. 1.900.000</td>
+                      <td>Apartment</td>
+                      <td>
+                        <span class="badge bg-success d-block mb-2 fs-6"
+                          >Update</span
+                        >
+                        <span class="badge bg-warning d-block fs-6"
+                          >Delete</span
+                        >
                       </td>
                     </tr>
                   </tbody>
@@ -381,7 +441,175 @@
 
     <script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
     <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script src="assets/js/main.js"></script>
+    <script>
+      const baseUrl = "http://localhost:3000";
+    </script>
+    <script>
+      function setLocalStorage(data) {
+        localStorage.access_token = data.accessToken;
+        localStorage.role = data.role;
+        localStorage.email = data.email;
+        changeCurrentEmailAndRole(data);
+      }
+
+      function generateAccomodationRow(accommodation) {
+        const { name, price, location, imgUrl, facility, roomCapacity, User, Type } = accommodation
+        return `<tr>
+          <td>${name}</td>
+          <td>${facility.slice(0, 100) + "..."}</td>
+          <td>${roomCapacity}</td>
+          <td>
+            <img src="${imgUrl}" class="img img-fluid">
+          </td>
+          <td>${User.email}</td>
+          <td>${location}</td>
+          <td>Rp. ${price}</td>
+          <td>${Type.name}</td>
+          <td>
+            <span class="badge bg-success d-block mb-2 fs-6">Update</span>
+            <span class="badge bg-warning d-block fs-6">Delete</span>
+          </td>
+        </tr>`;
+      }
+
+      function generateAccommodationsTable(accommodations) {
+        let accommodationsTable = ""
+        $("#accommodationRows").empty()
+        accommodations.forEach(accommodation => {
+          accommodationsTable += generateAccomodationRow(accommodation)
+        })
+        $("#accommodationRows").append(accommodationsTable)
+      }
+
+      function changeCurrentEmailAndRole(data) {
+        $("#currentEmail").text(data.email);
+        $("#currentRole").text(data.role);
+      }
+
+      function showMainPage() {
+        $("#registerPage").hide();
+        $("#loginPage").hide();
+        $("#app").show();
+        $("#mainTable").show();
+        $("#addForm").hide();
+        getAccommodations();
+      }
+
+      function signOut() {
+        localStorage.clear();
+        $("#loginPage").show();
+        $("#app").hide();
+      }
+
+      function login() {
+        const email = $("#emailLogin").val();
+        const password = $("#passwordLogin").val();
+        axios({
+          method: "POST",
+          url: `${baseUrl}/users/login`,
+          data: {
+            email,
+            password,
+          },
+        })
+          .then(({ data }) => {
+            setLocalStorage(data);
+            showMainPage();
+          })
+          .catch((err) => {
+            setNotif("error", err.response.data.message);
+          })
+          .finally((_) => {
+            $("#formLogin").trigger("reset");
+          });
+      }
+
+      function register() {
+        const email = $("#emailRegister").val();
+        const password = $("#passwordRegister").val();
+        axios({
+          method: "POST",
+          url: `${baseUrl}/users/register`,
+          data: {
+            email,
+            password,
+          },
+        })
+          .then(({ data }) => {
+            setLocalStorage(data);
+            showMainPage();
+          })
+          .catch((err) => {
+            setNotif("error", err.response.data.message);
+          })
+          .finally((_) => {
+            $("#formRegister").trigger("reset");
+          });
+      }
+
+      function getAccommodations() {
+        axios({
+          method: "GET",
+          url: `${baseUrl}/accommodations`,
+          headers: {
+            access_token: localStorage.getItem("access_token"),
+          },
+        })
+          .then(({ data }) => {
+            generateAccommodationsTable(data)
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+
+      function setNotif(status, message) {
+        let notifId;
+        if (status === "error") {
+          notifId = $("#notifFail");
+        } else {
+          notifId = $("#notifSuccess");
+        }
+        notifId.text(message);
+        notifId.removeClass("d-none");
+        setTimeout(() => {
+          notifId.text("");
+          notifId.addClass("d-none");
+        }, 2000);
+      }
+
+      function setAppNotif(status, message) {
+        let notifId;
+        if (status === "error") {
+          notifId = $("#notifFail");
+        } else {
+          notifId = $("#notifSuccess");
+        }
+        notifId.text(message);
+        notifId.removeClass("d-none");
+        setTimeout(() => {
+          notifId.text("");
+          notifId.addClass("d-none");
+        }, 2000);
+      }
+
+      $(document).ready(function () {
+        if (localStorage.access_token) {
+          showMainPage();
+        }
+        $("#formLogin").on("submit", (e) => {
+          e.preventDefault();
+          login();
+        });
+        $("#formRegister").on("submit", (e) => {
+          e.preventDefault();
+          register();
+        });
+      });
+    </script>
   </body>
 </html>
