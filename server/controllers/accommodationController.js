@@ -125,12 +125,13 @@ class AccommodationController {
       },
       {
         where: {
-          id: req.params.accommodationId,
+          id: +req.params.accommodationId,
         },
         returning: true,
       }
     )
       .then((accommodation) => {
+        console.log(accommodation, req.params)
         if (accommodation[0] === 0) {
           throw createError(404, "Accommodation with this ID does not exist");
         } else {
