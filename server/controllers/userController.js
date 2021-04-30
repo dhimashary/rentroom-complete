@@ -2,6 +2,9 @@ const { User } = require("../models");
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
 const createError = require("http-errors");
+const { OAuth2Client } = require("google-auth-library");
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const client = new OAuth2Client(GOOGLE_CLIENT_ID);
 
 class UserController {
   static registerAdmin(req, res, next) {
@@ -62,8 +65,33 @@ class UserController {
       .catch(next);
   }
 
-  static loginGoogle(req, res, next) {
-    res.send("ok3");
+  static async googleLogin(req, res, next) {
+    try {
+      const ticket = await client.verifyIdToken({
+        idToken: req.body.googleToken,
+        audience: GOOGLE_CLIENT_ID, // Specify the CLIENT_ID of the app that accesses the backend
+        // Or, if multiple clients access the backend:
+        //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+      });
+      const payload = ticket.getPayload();
+      let user = await User.findOne({
+        where: {
+          email: payload.email,
+        },
+      });
+      if (user === null) {
+        user = await User.create({
+          email: payload.email,
+          password: process.env.DEFAULT_GOOGLE_PASSWORD,
+          role: "staff",
+        });
+      }
+      const { id, email, role } = user;
+      const accessToken = jwt.sign({ id, email, role }, process.env.JWT_SECRET);
+      res.send({ accessToken, email, role });
+    } catch (error) {
+      next(error);
+    }
   }
 }
 

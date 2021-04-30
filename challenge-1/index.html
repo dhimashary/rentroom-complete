@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="google-signin-client_id"
+      content="808537840200-736e51qokid0nilg7nlct3o3p115p8a5.apps.googleusercontent.com"
+    />
     <title>Dashboard - Hacktiv CMS</title>
 
     <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -84,9 +88,21 @@
               <input type="checkbox" value="remember-me" /> Remember me
             </label>
           </div>
-          <button class="w-100 btn btn-lg btn-primary" type="submit">
+          <button class="w-100 btn btn-lg btn-primary mb-3" type="submit">
             Sign in
           </button>
+          <div class="mb-3">
+            <p>
+              create your account here
+              <span class="btn btn-success btn-sm" onclick="showLoginPage()"
+                >Register here</span
+              >
+            </p>
+          </div>
+          <label class="mb-3">or Sign In with Google Account</label>
+          <div class="d-flex align-items-center justify-content-center">
+            <div id="my-signin3" data-onsuccess="onSignIn"></div>
+          </div>
           <p class="mt-5 mb-3 text-muted">© 2017–2021</p>
         </form>
       </div>
@@ -129,9 +145,21 @@
             />
             <label for="floatingPassword">Password</label>
           </div>
-          <button class="w-100 btn btn-lg btn-primary" type="submit">
+          <button class="w-100 btn btn-lg btn-primary mb-3" type="submit">
             Register
           </button>
+          <div class="mb-3">
+            <p>
+              Already have an account?
+              <span class="btn btn-success btn-sm" onclick="showLoginPage()"
+                >Login to your account here</span
+              >
+            </p>
+          </div>
+          <label class="mb-3">or Sign In with Google Account</label>
+          <div class="d-flex align-items-center justify-content-center">
+            <div id="my-signin2" data-onsuccess="onSignIn"></div>
+          </div>
           <p class="mt-5 mb-3 text-muted">© 2017–2021</p>
         </form>
       </div>
@@ -490,9 +518,10 @@ AC, PS4, WIFI</textarea
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <script src="assets/js/main.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script>
       const baseUrl = "http://localhost:3000";
-      let currentPage, updatedId
+      let currentPage, updatedId;
     </script>
     <script>
       function setLocalStorage(data) {
@@ -565,6 +594,18 @@ AC, PS4, WIFI</textarea
         getAccommodations();
       }
 
+      function showRegisterPage() {
+        $("#registerPage").show();
+        $("#loginPage").hide();
+        $("#app").hide();
+      }
+
+      function showLoginPage() {
+        $("#registerPage").hide();
+        $("#loginPage").show();
+        $("#app").hide();
+      }
+
       function toggleButtonAccommodationForm() {
         const toggleButton = $("#buttonAccommodationForm");
         if (toggleButton.hasClass("hide-form")) {
@@ -585,8 +626,8 @@ AC, PS4, WIFI</textarea
       }
 
       async function showUpdateForm(id) {
-        currentPage = "update"
-        updatedId = id
+        currentPage = "update";
+        updatedId = id;
         try {
           const toggleButton = $("#buttonAccommodationForm");
           $("#app").show();
@@ -707,7 +748,7 @@ AC, PS4, WIFI</textarea
             setAppNotif("alert-danger", err.response.data.message);
           })
           .finally((_) => {
-            $("#accommodationForm").trigger("reset")
+            $("#accommodationForm").trigger("reset");
           });
       }
 
@@ -789,7 +830,7 @@ AC, PS4, WIFI</textarea
         notifId.show();
         content.addClass(status);
         content.text(message);
-        console.log("IM HERE")
+        console.log("IM HERE");
         setTimeout(() => {
           notifId.hide();
         }, 20000);
@@ -814,12 +855,71 @@ AC, PS4, WIFI</textarea
             setAppNotif("alert-danger", err.response.data.message);
           })
           .finally((_) => {
-            updatedId = null
-            currentPage = null
-            $("#accommodationForm").trigger("reset")
-          })
+            updatedId = null;
+            currentPage = null;
+            $("#accommodationForm").trigger("reset");
+          });
       }
       
+      function renderButton() {
+        console.log("called");
+        gapi.signin2.render("my-signin2", {
+          scope: "profile email",
+          width: 240,
+          height: 50,
+          longtitle: true,
+          theme: "dark",
+          onsuccess: onSuccess,
+          onfailure: onFailure,
+        });
+      }
+      
+      function renderButton2() {
+        console.log("called");
+        gapi.signin2.render("my-signin3", {
+          scope: "profile email",
+          width: 240,
+          height: 50,
+          longtitle: true,
+          theme: "dark",
+          onsuccess: onSuccess,
+          onfailure: onFailure,
+        });
+      }
+      
+      function onSuccess(googleUser) {
+        const id_token = googleUser.getAuthResponse().id_token;
+        console.log(id_token)
+        axios({
+          method: "POST",
+          url: `${baseUrl}/users/googlelogin`,
+          data: {
+            googleToken: id_token
+          }
+        })
+        .then(({ data }) => {
+          setLocalStorage(data);
+          showMainPage();
+        })
+        .catch(err => {
+          setNotif("error", "Oops Login with Google failed...")
+        })
+      }
+      
+      function onFailure(error) {
+        console.log(error);
+      }
+      
+      function signOut() {
+        var auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(function () {
+          console.log('User signed out.');
+          localStorage.clear();
+          $("#loginPage").show();
+          $("#app").hide();
+        });
+      }
+
       $(document).ready(function () {
         if (localStorage.access_token) {
           changeCurrentEmailAndRole({
@@ -827,6 +927,8 @@ AC, PS4, WIFI</textarea
             role: localStorage.role,
           });
           showMainPage();
+        } else {
+          showRegisterPage();
         }
         $("#formLogin").on("submit", (e) => {
           e.preventDefault();
@@ -841,11 +943,21 @@ AC, PS4, WIFI</textarea
           if (currentPage !== "update") {
             createNewAccommodation();
           } else {
-            console.log(updatedId)
-            updateAccommodation(+updatedId)
+            console.log(updatedId);
+            updateAccommodation(+updatedId);
           }
         });
       });
     </script>
+    <script
+      src="https://apis.google.com/js/platform.js?onload=renderButton"
+      async
+      defer
+    ></script>
+    <script
+      src="https://apis.google.com/js/platform.js?onload=renderButton2"
+      async
+      defer
+    ></script>
   </body>
 </html>

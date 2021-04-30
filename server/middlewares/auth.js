@@ -42,7 +42,7 @@ class Auth {
     if (req.loggedInUser.role === "admin") {
       next()
     } else if (req.loggedInUser.role === "staff") {
-      Accommodation.findByPk(req.params.id)
+      Accommodation.findByPk(req.params.accommodationId)
         .then(accommodation => {
           if (accommodation.authorId === req.loggedInUser.id) {
             next()
