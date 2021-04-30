@@ -104,6 +104,7 @@
 
 <script>
 import GoogleLogin from "vue-google-login";
+import apiConfig from "../apiConfig/index";
 
 export default {
   name: "LoginPage",
@@ -125,7 +126,20 @@ export default {
   },
   methods: {
     signIn() {
-      console.log(this.email, this.password);
+      apiConfig({
+        method: "POST",
+        url: "/users/login",
+        data: {
+          email: this.email,
+          password: this.password
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     onSuccess(googleUser) {
       console.log(googleUser);
