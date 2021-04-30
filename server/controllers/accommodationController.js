@@ -54,6 +54,8 @@ class AccommodationController {
           attributes: ["id", "email"],
         },
       ],
+      // Add order conditions here....
+      order: [["id", "DESC"]],
     })
       .then((result) => {
         res.status(200).json(result);
@@ -76,7 +78,7 @@ class AccommodationController {
     })
       .then((result) => {
         if (result === null) {
-          throw createError(404, "Accommodation not found !")
+          throw createError(404, "Accommodation not found !");
         }
         res.status(200).json(result);
       })
@@ -113,7 +115,7 @@ class AccommodationController {
     } = req.body;
     let updatedAccommodation = null;
     let type;
-    console.log(req.body)
+    console.log(req.body);
     Accommodation.update(
       {
         name,
@@ -132,7 +134,11 @@ class AccommodationController {
       }
     )
       .then((accommodation) => {
-        console.log(accommodation, req.params, Number(req.params.accommodationId))
+        console.log(
+          accommodation,
+          req.params,
+          Number(req.params.accommodationId)
+        );
         if (accommodation[0] === 0) {
           throw createError(404, "Accommodation with this ID does not exist");
         } else {
@@ -148,13 +154,11 @@ class AccommodationController {
         return updatedAccommodation.getUser();
       })
       .then((user) => {
-        res
-          .status(200)
-          .json({
-            ...updatedAccommodation.dataValues,
-            Type: type,
-            User: { id: user.id, email: user.email },
-          });
+        res.status(200).json({
+          ...updatedAccommodation.dataValues,
+          Type: type,
+          User: { id: user.id, email: user.email },
+        });
       })
       .catch(next);
   }
