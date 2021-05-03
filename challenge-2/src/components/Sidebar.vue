@@ -14,12 +14,12 @@
           <p
             class="ml-1 text-md font-medium tracking-wide truncate text-gray-100 font-sans"
           >
-            Pururung
+            {{ email }}
           </p>
           <div class="badge">
             <span
               class="px-2 py-0.5 ml-auto text-xs font-medium tracking-wide text-blue-800 bg-blue-100 rounded-full"
-              >Admin</span
+              >{{ role }}</span
             >
           </div>
         </div>
@@ -235,6 +235,8 @@ export default {
   name: "Sidebar",
   data() {
     return {
+      email: "",
+      role: "",
       params: {
         client_id: process.env.VUE_APP_GOOGLE_CLIENT_ID,
       },
@@ -245,12 +247,13 @@ export default {
       this.$emit("changePage", "LoginPage");
       localStorage.clear();
     },
-    test() {
-      console.log("TESTS");
-    },
   },
   components: {
     GoogleLogin,
+  },
+  created() {
+    this.email = localStorage.email;
+    this.role = localStorage.role;
   },
 };
 </script>

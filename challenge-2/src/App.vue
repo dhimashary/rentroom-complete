@@ -15,7 +15,7 @@
     ></RegisterPage>
 
     <DashboardPage
-      v-else-if="currentPage === 'AccommodationPage'"
+      v-else
       :currentPage="currentPage"
       @changePage="changePage"
     ></DashboardPage>
