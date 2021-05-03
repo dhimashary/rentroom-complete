@@ -47,11 +47,6 @@
                   class="text-sm text-gray-600 dark:text-gray-400"
                   >Password</label
                 >
-                <a
-                  href="#!"
-                  class="text-sm text-gray-400 focus:outline-none focus:text-indigo-500 hover:text-indigo-500 dark:hover:text-indigo-300"
-                  >Forgot password?</a
-                >
               </div>
               <input
                 type="password"
@@ -78,9 +73,11 @@
               Don&#x27;t have an account yet?
               <button
                 @click="$emit('changePage', 'RegisterPage')"
+                type="button"
                 class="text-indigo-400 focus:outline-none focus:underline focus:text-indigo-500 dark:focus:border-indigo-800"
-                >Sign up</button
               >
+                Sign up
+              </button>
             </p>
             <p class="text-sm text-center text-gray-400 mb-3">
               Or Sign In with Google
@@ -131,24 +128,24 @@ export default {
         url: "/users/login",
         data: {
           email: this.email,
-          password: this.password
-        }
+          password: this.password,
+        },
       })
         .then(({ data }) => {
-          console.log(data)
+          this.$toast.open("Sign In Success !");
+          this.$emit("setLocalStorage", data);
+          this.$emit("changePage", "AccommodationPage");
         })
-        .catch(err => {
-          console.log(err)
-        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
     },
     onSuccess(googleUser) {
-      console.log(googleUser);
-      // This only gets the user information: id, name, imageUrl and email
-      console.log(googleUser.getAuthResponse().id_token);
-      console.log("dimari")
+      const googleToken = googleUser.getAuthResponse().id_token;
+      this.$emit("googleSignIn", googleToken);
     },
     onFailure() {
-      console.log("Oops something wrong");
+      this.$toast.error("Oops something wrong");
     },
   },
   components: {

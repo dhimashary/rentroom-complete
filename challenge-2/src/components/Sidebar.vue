@@ -196,7 +196,7 @@
             <a
               href="#"
               class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-700 text-gray-500 hover:text-gray-200 border-l-4 border-transparent hover:border-red-500 pr-6"
-              @click="$emit('changePage', 'LoginPage')"
+              @click="logout"
             >
               <span
                 class="inline-flex justify-center items-center ml-4 text-red-400"
@@ -231,6 +231,12 @@
 <script>
 export default {
   name: "Sidebar",
+  methods: {
+    logout () {
+      this.$emit('changePage', 'LoginPage')
+      localStorage.clear()
+    }
+  }
 };
 </script>
 

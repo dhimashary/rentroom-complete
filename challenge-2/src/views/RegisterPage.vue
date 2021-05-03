@@ -24,7 +24,7 @@
           </p>
         </div>
         <div class="m-7">
-          <form @submit.prevent="signIn">
+          <form @submit.prevent="signUp">
             <div class="mb-6">
               <label
                 for="email"
@@ -46,11 +46,6 @@
                   for="password"
                   class="text-sm text-gray-600 dark:text-gray-400"
                   >Password</label
-                >
-                <a
-                  href="#!"
-                  class="text-sm text-gray-400 focus:outline-none focus:text-indigo-500 hover:text-indigo-500 dark:hover:text-indigo-300"
-                  >Forgot password?</a
                 >
               </div>
               <input
@@ -76,18 +71,18 @@
             </div>
             <p class="text-sm text-center text-gray-400">
               Already have an account yet?
-              <a
-                href="#!"
+              <button
+                type="button"
                 @click="$emit('changePage', 'LoginPage')"
                 class="text-indigo-400 focus:outline-none focus:underline focus:text-indigo-500 dark:focus:border-indigo-800"
-                >Sign In</a
+              >
+                Sign In</button
               >.
             </p>
             <p class="text-sm text-center text-gray-400 mb-3">
               Or Sign In with Google
             </p>
 
-            
             <GoogleLogin
               :params="params"
               :renderParams="renderParams"
@@ -107,6 +102,7 @@
 
 <script>
 import GoogleLogin from "vue-google-login";
+import apiConfig from "../apiConfig/index";
 
 export default {
   name: "RegisterPage",
@@ -127,17 +123,30 @@ export default {
     };
   },
   methods: {
-    signIn() {
-      console.log(this.email, this.password);
+    signUp() {
+      apiConfig({
+        method: "POST",
+        url: "/users/register",
+        data: {
+          email: this.email,
+          password: this.password,
+        },
+      })
+        .then(({ data }) => {
+          this.$toast.open("Sign Up Success !");
+          this.$emit("setLocalStorage", data);
+          this.$emit("changePage", "AccommodationPage")
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
     },
     onSuccess(googleUser) {
-      console.log(googleUser);
-      // This only gets the user information: id, name, imageUrl and email
-      console.log(googleUser.getAuthResponse().id_token);
-      console.log("dimari")
+      const googleToken = googleUser.getAuthResponse().id_token;
+      this.$emit("googleSignIn", googleToken);
     },
     onFailure() {
-      console.log("Oops something wrong");
+      this.$toast.error("Oops something wrong");
     },
   },
   components: {
