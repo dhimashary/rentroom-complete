@@ -1,7 +1,9 @@
-const UserController = require("./userController")
-const AccommodationController = require("./accommodationController")
+const UserController = require("./userController");
+const AccommodationController = require("./accommodationController");
+const TypeController = require("./typeController");
 
 module.exports = {
   UserController,
-  AccommodationController
-}
+  AccommodationController,
+  TypeController,
+};
