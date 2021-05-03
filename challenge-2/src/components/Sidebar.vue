@@ -192,11 +192,11 @@
               >
             </a>
           </li>
-          <li>
-            <a
-              href="#"
-              class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-700 text-gray-500 hover:text-gray-200 border-l-4 border-transparent hover:border-red-500 pr-6"
-              @click="logout"
+          <li @click="logout">
+            <GoogleLogin
+              :params="params"
+              :logoutButton="true"
+              class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-gray-700 text-gray-500 hover:text-gray-200 border-l-4 border-transparent hover:border-red-500 pr-6 w-full"
             >
               <span
                 class="inline-flex justify-center items-center ml-4 text-red-400"
@@ -220,7 +220,7 @@
                 class="ml-2 font-semibold text-sm tracking-wide truncate font-sans"
                 >Logout</span
               >
-            </a>
+            </GoogleLogin>
           </li>
         </ul>
       </div>
@@ -229,14 +229,29 @@
 </template>
 
 <script>
+import GoogleLogin from "vue-google-login";
+
 export default {
   name: "Sidebar",
+  data() {
+    return {
+      params: {
+        client_id: process.env.VUE_APP_GOOGLE_CLIENT_ID,
+      },
+    };
+  },
   methods: {
-    logout () {
-      this.$emit('changePage', 'LoginPage')
-      localStorage.clear()
-    }
-  }
+    logout() {
+      this.$emit("changePage", "LoginPage");
+      localStorage.clear();
+    },
+    test() {
+      console.log("TESTS");
+    },
+  },
+  components: {
+    GoogleLogin,
+  },
 };
 </script>
 
