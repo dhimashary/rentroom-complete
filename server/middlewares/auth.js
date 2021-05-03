@@ -1,7 +1,6 @@
 const { User, Accommodation } = require("../models");
 const jwt = require("jsonwebtoken");
 const createError = require("http-errors");
-const accommodation = require("../models/accommodation");
 
 class Auth {
   static authentication(req, res, next) {
@@ -10,16 +9,16 @@ class Auth {
       process.env.JWT_SECRET,
       (err, user) => {
         if (err) {
-          console.log(err)
+          console.log(err);
           next(err);
         } else {
-          console.log(user , "========")
+          console.log(user, "========");
           User.findByPk(user.id)
             .then((result) => {
               if (!result) {
                 throw createError(404, "User not found!");
               }
-              req.loggedInUser = user
+              req.loggedInUser = user;
               next();
             })
             .catch((err) => {
@@ -31,30 +30,41 @@ class Auth {
   }
 
   static authorizationAdminOrStaff(req, res, next) {
-    if (req.loggedInUser.role !== "staff" && req.loggedInUser.role !== "admin") {
-      next(createError(401, "Access Unauthorized"))
+    if (
+      req.loggedInUser.role !== "staff" &&
+      req.loggedInUser.role !== "admin"
+    ) {
+      next(createError(401, "Access Unauthorized"));
     } else {
-      next()
+      next();
     }
   }
 
   static authorizationAdminOrAuthor(req, res, next) {
     if (req.loggedInUser.role === "admin") {
-      next()
+      next();
     } else if (req.loggedInUser.role === "staff") {
       Accommodation.findByPk(req.params.accommodationId)
-        .then(accommodation => {
+        .then((accommodation) => {
           if (accommodation.authorId === req.loggedInUser.id) {
-            next()
+            next();
           } else {
-            next(createError(401, "Access Unauthorized"))
+            next(createError(401, "Access Unauthorized"));
           }
         })
-        .catch(next)
+        .catch(next);
     } else {
       next(createError(401, "Access Unauthorized"));
     }
   }
+
+  static authorizationAdminOnly(req, res, next) {
+    if (req.loggedInUser.role !== "admin") {
+      next(createError(401, "Access Unauthorized"));
+    } else {
+      next();
+    }
+  }
 }
 
-module.exports = Auth
+module.exports = Auth;
