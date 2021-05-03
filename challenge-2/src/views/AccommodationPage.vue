@@ -1,7 +1,7 @@
 <template>
   <div class="w-5/6 flex flex-col">
     <AccommodationHeader></AccommodationHeader>
-    <AccommodationTable></AccommodationTable>
+    <AccommodationTable :accommodations="accommodations"></AccommodationTable>
   </div>
 </template>
 
@@ -10,6 +10,7 @@ import AccommodationHeader from "../components/AccommodationHeader";
 import AccommodationTable from "../components/AccommodationTable";
 export default {
   name: "AccommodationPage",
+  props: ["accommodations"],
   components: {
     AccommodationTable,
     AccommodationHeader

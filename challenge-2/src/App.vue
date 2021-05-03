@@ -69,6 +69,13 @@ export default {
       localStorage.setItem("role", data.role);
     },
   },
+  created () {
+    if (localStorage.getItem("access_token")) {
+      this.changePage("AccommodationPage")
+    } else {
+      this.changePage("LoginPage")
+    }
+  }
 };
 </script>
 
