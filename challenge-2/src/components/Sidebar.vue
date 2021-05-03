@@ -12,9 +12,10 @@
         />
         <div class="ml-1">
           <p
-            class="ml-1 text-md font-medium tracking-wide truncate text-gray-100 font-sans"
+            style="overflow-wrap: break-word !important;"
+            class="ml-1 text-md font-medium tracking-wide overflow-clip text-gray-100 font-sans"
           >
-            {{ email }}
+            {{ username }}
           </p>
           <div class="badge">
             <span
@@ -247,6 +248,11 @@ export default {
       this.$emit("changePage", "LoginPage");
       localStorage.clear();
     },
+  },
+  computed: {
+    username () {
+      return this.email.split("@")[0]
+    }
   },
   components: {
     GoogleLogin,

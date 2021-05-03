@@ -1,7 +1,10 @@
 <template>
   <div class="w-5/6 flex flex-col">
     <AccommodationHeader></AccommodationHeader>
-    <AccommodationTable :accommodations="accommodations"></AccommodationTable>
+    <AccommodationTable
+      @dataDeleted="dataDeleted"
+      :accommodations="accommodations"
+    ></AccommodationTable>
   </div>
 </template>
 
@@ -13,8 +16,13 @@ export default {
   props: ["accommodations"],
   components: {
     AccommodationTable,
-    AccommodationHeader
-  }
+    AccommodationHeader,
+  },
+  methods: {
+    dataDeleted(id) {
+      this.$emit("dataDeleted", id);
+    },
+  },
 };
 </script>
 

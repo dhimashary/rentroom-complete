@@ -56,11 +56,13 @@
                   aria-label="Default select example"
                   required
                 >
-                  <option value="2" selected>Guest House</option>
-                  <option value="3">Hotel</option>
-                  <option value="4">Apartment</option>
-                  <option value="5">Hostel</option>
-                  <option value="6">Error</option>
+                  <option
+                    v-for="type in types"
+                    :key="type.id"
+                    :value="type.id"
+                  >
+                    {{ type.name }}
+                  </option>
                 </select>
               </div>
               <div class="flex flex-col">
@@ -84,7 +86,12 @@
               </div>
               <div class="flex flex-col">
                 <label class="leading-loose">Image Link</label>
-                <img v-if="previewImage" :src="previewImage" class="mb-3" style="width: 250px; height: 250px" />
+                <img
+                  v-if="previewImage"
+                  :src="previewImage"
+                  class="mb-3"
+                  style="width: 250px; height: 250px"
+                />
                 <input
                   type="file"
                   accept="image/*"
@@ -104,6 +111,8 @@
             </div>
             <div class="pt-4 flex items-center space-x-4">
               <button
+                @click="previewImage = null"
+                type="reset"
                 class="flex justify-center items-center w-full text-gray-900 px-4 py-3 rounded-md focus:outline-none"
               >
                 <svg
@@ -136,33 +145,70 @@
 </template>
 
 <script>
+import apiConfig from "../apiConfig";
+
 export default {
   name: "AccommodationForm",
+  props: ["types"],
   data() {
     return {
       newAccommodation: {
         name: "hehe",
         roomCapacity: 1,
-        typeId: 5,
+        typeId: null,
         facility: "haha",
         price: 1000,
         location: "jakarta",
       },
       previewImage: null,
-      requestForm: new FormData()
+      requestForm: new FormData(),
     };
   },
   methods: {
     createAccommodation() {
-      console.log(this.newAccommodation);
       for (let key in this.newAccommodation) {
-        this.requestForm.append(key, this.newAccommodation[key])
+        this.requestForm.append(key, this.newAccommodation[key]);
       }
-      console.log(this.requestForm)
+      this.$toast.open({
+        message: "Uploading New Accommodation, Please Wait",
+        type: "info",
+        duration: 0
+      });
+      apiConfig({
+        method: "POST",
+        url: "/accommodations",
+        data: this.requestForm,
+        headers: {
+          access_token: localStorage.access_token,
+          "content-type": "multipart/form-data",
+        },
+      })
+        .then(({ data }) => {
+          this.$toast.clear();
+          this.$toast.open({
+            message: "Success Create new Accommodation !",
+          });
+          this.$emit("newDataCreated", data)
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        })
+        .finally(() => {
+          this.requestForm = new FormData();
+          this.previewImage = null;
+          this.newAccommodation = {
+            name: "",
+            roomCapacity: 1,
+            typeId: 2,
+            facility: "",
+            price: 0,
+            location: "",
+          };
+        });
     },
     setImage(event) {
       this.requestForm.append("fileName", event.target.files[0].name);
-      this.requestForm.append("file", event.target.files[0]);
+      this.requestForm.append("accommodationImage", event.target.files[0]);
       const reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);
       reader.onload = (e) => {

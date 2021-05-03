@@ -6,9 +6,12 @@
     <AccommodationPage
       v-if="currentPage === 'AccommodationPage'"
       :accommodations="accommodations"
+      @dataDeleted="dataDeleted"
     ></AccommodationPage>
     <CreateAccommodationPage
       v-else-if="currentPage === 'CreateAccommodationPage'"
+      @newDataCreated="newDataCreated"
+      :types="types"
     ></CreateAccommodationPage>
   </div>
 </template>
@@ -26,6 +29,7 @@ export default {
     return {
       accommodations: [],
       accommodationDetail: {},
+      types: [],
     };
   },
   components: {
@@ -46,15 +50,37 @@ export default {
         },
       })
         .then(({ data }) => {
-          this.accommodations = data
+          this.accommodations = data;
         })
         .catch((err) => {
           this.$toast.error(err.response.data.message);
         });
     },
+    findAccommodationTypes() {
+      apiConfig({
+        method: "GET",
+        url: "/types",
+      })
+        .then(({ data }) => {
+          this.types = data;
+        })
+        .catch((err) => {
+          this.$toast.error(err.response.data.message);
+        });
+    },
+    newDataCreated(data) {
+      this.accommodations.unshift(data)
+      this.$emit("changePage", "AccommodationPage")
+      console.log("YOOP")
+    },
+    dataDeleted(id) {
+      console.log(id)
+      this.accommodations = this.accommodations.filter(accommodation => accommodation.id != id)
+    }
   },
   created() {
     this.findAllAccommodations();
+    this.findAccommodationTypes();
   },
 };
 </script>
