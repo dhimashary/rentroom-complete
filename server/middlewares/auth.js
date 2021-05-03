@@ -30,14 +30,13 @@ class Auth {
   }
 
   static authorizationAdminOrStaff(req, res, next) {
-    console.log(req.file, req.body)
     if (
       req.loggedInUser.role !== "staff" &&
       req.loggedInUser.role !== "admin"
     ) {
       next(createError(401, "Access Unauthorized"));
     } else {
-      next(createError(401, "Access Unauthorized"));
+      next()
     }
   }
 
