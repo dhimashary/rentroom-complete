@@ -1,5 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
+const createError = require("http-errors");
+
 module.exports = (sequelize, DataTypes) => {
   class Accommodation extends Model {
     static associate(models) {
@@ -74,6 +76,27 @@ module.exports = (sequelize, DataTypes) => {
           notNull: true,
         },
       },
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "active",
+        validate: {
+          notNull: true,
+          notEmpty: true,
+          isValid(value) {
+            if (
+              value !== "active" &&
+              value !== "inactive" &&
+              value !== "archived"
+            ) {
+              throw createError(
+                400,
+                "Status can only be filled with active, inactive, or archived"
+              );
+            }
+          },
+        },
+      },
     },
     {
       sequelize,
@@ -81,7 +104,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   Accommodation.afterCreate((accomodation) => {
-    return accomodation.reload()
-  })
+    return accomodation.reload();
+  });
   return Accommodation;
 };
