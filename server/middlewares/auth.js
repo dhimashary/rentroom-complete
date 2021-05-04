@@ -9,10 +9,8 @@ class Auth {
       process.env.JWT_SECRET,
       (err, user) => {
         if (err) {
-          console.log(err);
           next(err);
         } else {
-          console.log(user, "========");
           User.findByPk(user.id)
             .then((result) => {
               if (!result) {

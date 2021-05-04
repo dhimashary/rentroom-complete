@@ -8,6 +8,8 @@
       :accommodations="accommodations"
       @populateUpdateForm="setPopulateFormId"
       @dataDeleted="dataDeleted"
+      @dataUpdated="dataUpdated"
+      :types="types"
     ></AccommodationPage>
     <CreateAccommodationPage
       v-else-if="currentPage === 'CreateAccommodationPage'"

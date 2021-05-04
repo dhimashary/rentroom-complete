@@ -113,9 +113,11 @@
           <tbody class="bg-white">
             <AccommodationTableRow
               v-for="(accommodation, i) in accommodations"
+              :types="types"
               :key="accommodation.id"
               :i="i"
               :accommodation="accommodation"
+              @patchStatus="patchStatus"
               @deleteAccommodation="deleteAccommodation"
               @populateUpdateForm="populateUpdateForm"
             ></AccommodationTableRow>
@@ -131,7 +133,7 @@ import apiConfig from "../apiConfig";
 import AccommodationTableRow from "./AccommodationTableRow";
 export default {
   name: "AccommodationTable",
-  props: ["accommodations"],
+  props: ["accommodations", "types"],
   components: {
     AccommodationTableRow,
   },
@@ -167,6 +169,35 @@ export default {
     },
     populateUpdateForm(id) {
       this.$emit("populateUpdateForm", id)
+    },
+    patchStatus(payload) {
+      const { id, status } = payload
+      this.$toast.open({
+        message: "Updating Accommodation Status, Please Wait",
+        type: "info",
+        duration: 0,
+      });
+      apiConfig({
+        method: "PATCH",
+        url: "/accommodations/status/" + id,
+        headers: {
+          access_token: localStorage.access_token 
+        },
+        data: {
+          status
+        }
+      })
+        .then(({ data }) => {
+          this.$toast.clear()
+          this.$emit("dataUpdated", data)
+          this.$toast.open({
+            message: "Success Update Accommodation Status!",
+          });
+        })
+        .catch((err) => {
+          console.log(err)
+          this.$toast.error(err.response.data.message)
+        })
     }
   },
   created() {
