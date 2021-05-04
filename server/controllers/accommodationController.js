@@ -115,7 +115,6 @@ class AccommodationController {
     } = req.body;
     let updatedAccommodation = null;
     let type;
-    console.log(req.body);
     Accommodation.update(
       {
         name,
@@ -125,6 +124,50 @@ class AccommodationController {
         price,
         typeId,
         imgUrl,
+      },
+      {
+        where: {
+          id: Number(req.params.accommodationId),
+        },
+        returning: true,
+      }
+    )
+      .then((accommodation) => {
+        console.log(
+          accommodation,
+          req.params,
+          Number(req.params.accommodationId)
+        );
+        if (accommodation[0] === 0) {
+          throw createError(404, "Accommodation with this ID does not exist");
+        } else {
+          updatedAccommodation = accommodation[1][0];
+          return updatedAccommodation.getType();
+        }
+      })
+      .then((currentType) => {
+        type = {
+          id: currentType.id,
+          name: currentType.name,
+        };
+        return updatedAccommodation.getUser();
+      })
+      .then((user) => {
+        res.status(200).json({
+          ...updatedAccommodation.dataValues,
+          Type: type,
+          User: { id: user.id, email: user.email },
+        });
+      })
+      .catch(next);
+  }
+
+  static updateStatus(req, res, next) {
+    let updatedAccommodation = null;
+    let type;
+    Accommodation.update(
+      {
+        status: req.body.status
       },
       {
         where: {
