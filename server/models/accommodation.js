@@ -1,5 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
+const getCurrentTime = require("../helpers/getCurrentTime");
+const getHistoryFormat = require("../helpers/getHistoryFormat");
 const createError = require("http-errors");
 
 module.exports = (sequelize, DataTypes) => {
@@ -103,8 +105,57 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Accommodation",
     }
   );
-  Accommodation.afterCreate((accomodation) => {
-    return accomodation.reload();
+  Accommodation.afterCreate(async (accommodation) => {
+    try {
+      const user = await accommodation.getUser();
+      const historyOption = getHistoryFormat(accommodation, user.email, {
+        status: "create",
+      });
+      await sequelize.models.History.create(historyOption);
+      return accommodation.reload();
+    } catch (error) {
+      throw error;
+    }
   });
+  Accommodation.addHook(
+    "afterDestroy",
+    "writeDeleteHistory",
+    async (accommodation) => {
+      try {
+        const user = await accommodation.getUser();
+        const historyOption = getHistoryFormat(accommodation, user.email, {
+          status: "delete",
+        });
+        await sequelize.models.History.create(historyOption);
+      } catch (error) {
+        throw error;
+      }
+    }
+  );
+  Accommodation.addHook(
+    "beforeUpdate",
+    "writeUpdateHistory",
+    async (accommodation, options) => {
+      try {
+        let description = {};
+        if (options.from === "PUT") {
+          description.status = "put";
+        } else if (options.from === "PATCH") {
+          description.status = "patch";
+          description.oldStatus = accommodation._previousDataValues.status;
+          description.newStatus = accommodation.status;
+        }
+        const user = await accommodation.getUser();
+        const historyOption = getHistoryFormat(
+          accommodation,
+          user.email,
+          description
+        );
+        await sequelize.models.History.create(historyOption);
+      } catch (error) {
+        throw error;
+      }
+    }
+  );
   return Accommodation;
 };

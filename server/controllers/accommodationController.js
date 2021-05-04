@@ -90,6 +90,7 @@ class AccommodationController {
       where: {
         id: req.params.accommodationId,
       },
+      individualHooks: true
     })
       .then((number) => {
         if (number === 0) {
@@ -130,6 +131,8 @@ class AccommodationController {
           id: Number(req.params.accommodationId),
         },
         returning: true,
+        individualHooks: true,
+        from: "PUT"
       }
     )
       .then((accommodation) => {
@@ -174,14 +177,11 @@ class AccommodationController {
           id: Number(req.params.accommodationId),
         },
         returning: true,
+        individualHooks: true,
+        from: "PATCH"
       }
     )
       .then((accommodation) => {
-        console.log(
-          accommodation,
-          req.params,
-          Number(req.params.accommodationId)
-        );
         if (accommodation[0] === 0) {
           throw createError(404, "Accommodation with this ID does not exist");
         } else {

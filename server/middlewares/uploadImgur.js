@@ -1,7 +1,6 @@
 const axios = require("axios");
 
 module.exports = function (req, res, next) {
-  console.log(req.file, "DI IMGUR <-----");
   if (req.file) {
     const data64 = req.file.buffer.toString("base64");
     axios({
