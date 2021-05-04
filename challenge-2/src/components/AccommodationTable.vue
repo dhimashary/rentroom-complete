@@ -117,6 +117,7 @@
               :i="i"
               :accommodation="accommodation"
               @deleteAccommodation="deleteAccommodation"
+              @populateUpdateForm="populateUpdateForm"
             ></AccommodationTableRow>
           </tbody>
         </table>
@@ -138,6 +139,11 @@ export default {
     deleteAccommodation(id) {
       const isConfirmed = confirm("Are you sure want to delete this data?");
       if (isConfirmed) {
+        this.$toast.open({
+          message: "Deleting Accommodation, Please Wait",
+          type: "info",
+          duration: 0,
+        });
         apiConfig({
           method: "DELETE",
           url: "/accommodations/" + id,
@@ -146,6 +152,7 @@ export default {
           },
         })
           .then(({ data }) => {
+            this.$toast.clear()
             this.$toast.open({
               message: "Success Delete Accommodation!",
             });
@@ -158,6 +165,9 @@ export default {
         this.$toast.info("Delete data cancelled");
       }
     },
+    populateUpdateForm(id) {
+      this.$emit("populateUpdateForm", id)
+    }
   },
   created() {
     console.log(this.accommodations);

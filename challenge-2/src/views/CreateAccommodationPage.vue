@@ -5,15 +5,11 @@
 </template>
 
 <script>
-import AccommodationHeader from "../components/AccommodationHeader";
-import AccommodationTable from "../components/AccommodationTable";
 import AccommodationForm from "../components/AccommodationForm";
 export default {
   name: "CreateAccommodationPage",
   props: ["types"],
   components: {
-    AccommodationTable,
-    AccommodationHeader,
     AccommodationForm
   },
   methods: {

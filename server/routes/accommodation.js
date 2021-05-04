@@ -7,6 +7,6 @@ router.get("/", AccommodationController.findAll);
 router.get("/:accommodationId", AccommodationController.findById);
 router.post("/",  Auth.authorizationAdminOrStaff, upload.single("accommodationImage"), uploadImgur, AccommodationController.create);
 router.delete("/:accommodationId", Auth.authorizationAdminOrAuthor, AccommodationController.delete);
-router.put("/:accommodationId", Auth.authorizationAdminOrAuthor, AccommodationController.update);
+router.put("/:accommodationId", Auth.authorizationAdminOrAuthor, upload.single("accommodationImage"), uploadImgur, AccommodationController.update);
 
 module.exports = router

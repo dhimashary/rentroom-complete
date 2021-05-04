@@ -87,6 +87,7 @@
       <button
         class="mb-2 px-5 py-2 border-yellow-700 border text-yellow-600 rounded transition duration-300 hover:bg-yellow-800 hover:text-white focus:outline-none"
         v-if="isAuthorized"
+        @click="populateUpdateForm(accommodation.id)"
       >
         Edit
       </button>
@@ -123,7 +124,11 @@ export default {
   methods: {
     deleteAccommodation() {
       this.$emit("deleteAccommodation", this.accommodation.id)
-    } 
+    },
+    populateUpdateForm(id) {
+      console.log(id, "<--")
+      this.$emit("populateUpdateForm", id)
+    }
   }
 };
 </script>

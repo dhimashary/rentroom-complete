@@ -6,6 +6,7 @@
     <AccommodationPage
       v-if="currentPage === 'AccommodationPage'"
       :accommodations="accommodations"
+      @populateUpdateForm="setPopulateFormId"
       @dataDeleted="dataDeleted"
     ></AccommodationPage>
     <CreateAccommodationPage
@@ -13,6 +14,13 @@
       @newDataCreated="newDataCreated"
       :types="types"
     ></CreateAccommodationPage>
+    <UpdateAccommodationPage
+      v-else-if="currentPage === 'UpdateAccommodationPage'"
+      @dataUpdated="dataUpdated"
+      :accommodationId="populateUpdateId"
+      :types="types"
+    >
+    </UpdateAccommodationPage>
   </div>
 </template>
 
@@ -20,6 +28,7 @@
 import Sidebar from "../components/Sidebar";
 import AccommodationPage from "./AccommodationPage";
 import CreateAccommodationPage from "./CreateAccommodationPage";
+import UpdateAccommodationPage from "./UpdateAccommodationPage";
 import apiConfig from "../apiConfig/index";
 
 export default {
@@ -30,18 +39,25 @@ export default {
       accommodations: [],
       accommodationDetail: {},
       types: [],
+      populateUpdateId: null,
     };
   },
   components: {
     Sidebar,
     AccommodationPage,
     CreateAccommodationPage,
+    UpdateAccommodationPage,
   },
   methods: {
     changePage(page) {
       this.$emit("changePage", page);
     },
     findAllAccommodations() {
+      this.$toast.open({
+        message: "Find All Accommodation, Please Wait",
+        type: "info",
+        duration: 0,
+      });
       apiConfig({
         method: "GET",
         url: "/accommodations",
@@ -50,6 +66,7 @@ export default {
         },
       })
         .then(({ data }) => {
+          this.$toast.clear()
           this.accommodations = data;
         })
         .catch((err) => {
@@ -69,14 +86,27 @@ export default {
         });
     },
     newDataCreated(data) {
-      this.accommodations.unshift(data)
-      this.$emit("changePage", "AccommodationPage")
-      console.log("YOOP")
+      this.accommodations.unshift(data);
+      this.changePage("AccommodationPage");
     },
     dataDeleted(id) {
-      console.log(id)
-      this.accommodations = this.accommodations.filter(accommodation => accommodation.id != id)
-    }
+      this.accommodations = this.accommodations.filter(
+        (accommodation) => accommodation.id != id
+      );
+    },
+    dataUpdated(data) {
+      for (let i = 0; i < this.accommodations.length; i++) {
+        if (this.accommodations[i].id === data.id) {
+          this.accommodations[i] = data;
+          break;
+        }
+      }
+      this.changePage("AccommodationPage");
+    },
+    setPopulateFormId(id) {
+      this.populateUpdateId = id;
+      this.changePage("UpdateAccommodationPage");
+    },
   },
   created() {
     this.findAllAccommodations();

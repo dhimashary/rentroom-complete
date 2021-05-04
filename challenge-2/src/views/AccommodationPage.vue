@@ -2,6 +2,7 @@
   <div class="w-5/6 flex flex-col">
     <AccommodationHeader></AccommodationHeader>
     <AccommodationTable
+      @populateUpdateForm="populateUpdateForm"
       @dataDeleted="dataDeleted"
       :accommodations="accommodations"
     ></AccommodationTable>
@@ -22,6 +23,9 @@ export default {
     dataDeleted(id) {
       this.$emit("dataDeleted", id);
     },
+    populateUpdateForm(id) {
+      this.$emit("populateUpdateForm", id)
+    }
   },
 };
 </script>
