@@ -56,11 +56,8 @@
                   aria-label="Default select example"
                   required
                 >
-                  <option
-                    v-for="type in types"
-                    :key="type.id"
-                    :value="type.id"
-                  >
+                  <option disabled>Please Choose Accommodation Type</option>
+                  <option v-for="type in types" :key="type.id" :value="type.id">
                     {{ type.name }}
                   </option>
                 </select>
@@ -94,7 +91,7 @@
                 />
                 <input
                   type="file"
-                  accept="image/*"
+                  accept="image/png, image/jpeg, image/jpg"
                   required
                   @change="setImage($event)"
                   id="file-input"
@@ -154,12 +151,12 @@ export default {
   data() {
     return {
       newAccommodation: {
-        name: "hehe",
+        name: "",
         roomCapacity: 1,
         typeId: null,
-        facility: "haha",
-        price: 1000,
-        location: "jakarta",
+        facility: "",
+        price: 0,
+        location: "",
       },
       previewImage: null,
       requestForm: new FormData(),
@@ -173,7 +170,7 @@ export default {
       this.$toast.open({
         message: "Uploading New Accommodation, Please Wait",
         type: "info",
-        duration: 0
+        duration: 0,
       });
       apiConfig({
         method: "POST",
@@ -189,12 +186,15 @@ export default {
           this.$toast.open({
             message: "Success Create new Accommodation !",
           });
-          this.$emit("newDataCreated", data)
+          this.$emit("newDataCreated", data);
         })
         .catch((err) => {
           this.$toast.error(err.response.data.message);
         })
         .finally(() => {
+          setTimeout(() => {
+            this.$toast.clear();
+          }, 2000);
           this.requestForm = new FormData();
           this.previewImage = null;
           this.newAccommodation = {
@@ -208,13 +208,28 @@ export default {
         });
     },
     setImage(event) {
-      this.requestForm.append("fileName", event.target.files[0].name);
-      this.requestForm.append("accommodationImage", event.target.files[0]);
-      const reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]);
-      reader.onload = (e) => {
-        this.previewImage = e.target.result;
-      };
+      const file = event.target.files[0];
+      if (
+        file.type !== "image/jpeg" &&
+        file.type !== "image/jpg" &&
+        file.type !== "image/png"
+      ) {
+        event.target.value = ""
+        this.$toast.error("Only jpeg/jpg/png format allowed for image")
+      } else {
+        if (file.size > 262144) {
+          event.target.value = ""
+          this.$toast.error("Maximum file size is 256KB")
+        } else {
+          this.requestForm.append("fileName", event.target.files[0].name);
+          this.requestForm.append("accommodationImage", event.target.files[0]);
+          const reader = new FileReader();
+          reader.readAsDataURL(event.target.files[0]);
+          reader.onload = (e) => {
+            this.previewImage = e.target.result;
+          };
+        }
+      }
     },
   },
 };

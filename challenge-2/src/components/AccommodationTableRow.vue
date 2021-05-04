@@ -18,7 +18,7 @@
       {{ shortFacility }}
     </td>
     <td
-      class="px-6 py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5"
+      class="text-center py-4 whitespace-no-wrap border-b text-blue-900 border-gray-500 text-sm leading-5"
     >
       {{ accommodation.roomCapacity }}
     </td>
@@ -102,7 +102,7 @@
     <td
       class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5"
     >
-      {{ accommodation.price }}
+      {{ getFormatedCurrency }}
     </td>
     <td
       class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5"
@@ -143,7 +143,7 @@ export default {
   },
   computed: {
     shortFacility() {
-      return this.accommodation.facility.slice(0, 80) + "...";
+      return this.accommodation.facility.slice(0, 40) + "...";
     },
     isAuthorized() {
       if (
@@ -171,6 +171,9 @@ export default {
         return "bg-yellow-400";
       }
     },
+    getFormatedCurrency () {
+      return 'Rp. ' + new Intl.NumberFormat('ID').format(this.accommodation.price)
+    }
   },
   methods: {
     deleteAccommodation() {

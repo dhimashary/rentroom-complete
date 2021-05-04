@@ -23,6 +23,9 @@
       :types="types"
     >
     </UpdateAccommodationPage>
+    <HistoryPage
+      v-else-if="currentPage === 'HistoryPage'"
+    ></HistoryPage>
   </div>
 </template>
 
@@ -31,6 +34,7 @@ import Sidebar from "../components/Sidebar";
 import AccommodationPage from "./AccommodationPage";
 import CreateAccommodationPage from "./CreateAccommodationPage";
 import UpdateAccommodationPage from "./UpdateAccommodationPage";
+import HistoryPage from "./HistoryPage";
 import apiConfig from "../apiConfig/index";
 
 export default {
@@ -49,6 +53,7 @@ export default {
     AccommodationPage,
     CreateAccommodationPage,
     UpdateAccommodationPage,
+    HistoryPage
   },
   methods: {
     changePage(page) {
@@ -68,12 +73,16 @@ export default {
         },
       })
         .then(({ data }) => {
-          this.$toast.clear()
           this.accommodations = data;
         })
         .catch((err) => {
           this.$toast.error(err.response.data.message);
-        });
+        })
+        .finally(_ => {
+          setTimeout(() => {
+            this.$toast.clear()
+          }, 2000)
+        })
     },
     findAccommodationTypes() {
       apiConfig({
@@ -85,7 +94,12 @@ export default {
         })
         .catch((err) => {
           this.$toast.error(err.response.data.message);
-        });
+        })
+        .finally(_ => {
+          setTimeout(() => {
+            this.$toast.clear()
+          }, 2000)
+        })
     },
     newDataCreated(data) {
       this.accommodations.unshift(data);

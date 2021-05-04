@@ -90,9 +90,6 @@
               :onFailure="onFailure"
               >LOGIN</GoogleLogin
             >
-            <GoogleLogin :params="params" :logoutButton="true"
-              >NANTI APUS</GoogleLogin
-            >
           </form>
         </div>
       </div>

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="-my-2 py-2 overflow-x-auto sm:-mx-1 sm:px-6 ">
+    <div class="-my-2 py-2 overflow-x-auto sm:-mx-1 sm:px-6 pr-10">
       <!-- <div
         class="align-middle rounded-tl-lg rounded-tr-lg inline-block w-full py-4 overflow-hidden bg-white shadow-lg px-12"
       >
@@ -61,66 +61,32 @@
               <th
                 class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider"
               >
-                Name
+                Accommodation Name
               </th>
               <th
                 class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider"
               >
-                Facility
+                Description
               </th>
               <th
                 class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider"
               >
-                Capacity
+                By
               </th>
               <th
                 class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider"
               >
-                Status
-              </th>
-              <th
-                class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider"
-              >
-                Accommodation Image
-              </th>
-              <th
-                class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider"
-              >
-                Author
-              </th>
-              <th
-                class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider"
-              >
-                Location
-              </th>
-              <th
-                class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider"
-              >
-                Price
-              </th>
-              <th
-                class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider"
-              >
-                Type
-              </th>
-              <th
-                class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 text-blue-500 tracking-wider"
-              >
-                Action
+                Created At
               </th>
             </tr>
           </thead>
           <tbody class="bg-white">
-            <AccommodationTableRow
-              v-for="(accommodation, i) in accommodations"
-              :types="types"
-              :key="accommodation.id"
+            <HistoryTableRow
+              v-for="(history, i) in histories"
+              :key="history.id"
               :i="i"
-              :accommodation="accommodation"
-              @patchStatus="patchStatus"
-              @deleteAccommodation="deleteAccommodation"
-              @populateUpdateForm="populateUpdateForm"
-            ></AccommodationTableRow>
+              :history="history"
+            ></HistoryTableRow>
           </tbody>
         </table>
       </div>
@@ -130,75 +96,35 @@
 
 <script>
 import apiConfig from "../apiConfig";
-import AccommodationTableRow from "./AccommodationTableRow";
+import HistoryTableRow from "./HistoryTableRow";
 export default {
-  name: "AccommodationTable",
-  props: ["accommodations", "types"],
+  name: "HistoryTable",
+  data() {
+    return {
+      histories: [],
+    };
+  },
   components: {
-    AccommodationTableRow,
+    HistoryTableRow,
   },
   methods: {
-    deleteAccommodation(id) {
-      const isConfirmed = confirm("Are you sure want to delete this data?");
-      if (isConfirmed) {
-        this.$toast.open({
-          message: "Deleting Accommodation, Please Wait",
-          type: "info",
-          duration: 0,
-        });
-        apiConfig({
-          method: "DELETE",
-          url: "/accommodations/" + id,
-          headers: {
-            access_token: localStorage.access_token,
-          },
-        })
-          .then(({ data }) => {
-            this.$toast.clear()
-            this.$toast.open({
-              message: "Success Delete Accommodation!",
-            });
-            this.$emit("dataDeleted", id);
-          })
-          .catch((err) => {
-            this.$toast.error(err.response.data.message);
-          })
-          .finally(_ => {
-          this.$toast.clear()
-        })
-      } else {
-        this.$toast.info("Delete data cancelled");
-      }
-    },
-    populateUpdateForm(id) {
-      this.$emit("populateUpdateForm", id)
-    },
-    patchStatus(payload) {
-      const { id, status } = payload
+    getHistories() {
       this.$toast.open({
-        message: "Updating Accommodation Status, Please Wait",
+        message: "Fetching History Accommodation, Please Wait",
         type: "info",
         duration: 0,
       });
       apiConfig({
-        method: "PATCH",
-        url: "/accommodations/status/" + id,
+        method: "GET",
+        url: "/histories",
         headers: {
-          access_token: localStorage.access_token 
+          access_token: localStorage.access_token,
         },
-        data: {
-          status
-        }
       })
         .then(({ data }) => {
-          this.$toast.clear()
-          this.$emit("dataUpdated", data)
-          this.$toast.open({
-            message: "Success Update Accommodation Status!",
-          });
+          this.histories = data;
         })
         .catch((err) => {
-          console.log(err)
           this.$toast.error(err.response.data.message)
         })
         .finally(_ => {
@@ -206,8 +132,11 @@ export default {
             this.$toast.clear()
           }, 2000)
         })
-    }
-  }
+    },
+  },
+  created() {
+    this.getHistories()
+  },
 };
 </script>
 
