@@ -30,6 +30,7 @@ class UserController {
     User.create({
       email,
       password,
+      role: "customer"
     })
       .then((user) => {
         const { id, email, role } = user;
