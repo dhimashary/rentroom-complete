@@ -17,22 +17,22 @@ module.exports = {
         {
           name: "Guest House",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Hotel",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Apartment",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
         {
           name: "Hostel",
           createdAt: new Date(),
-          updatedAt: new Date()
+          updatedAt: new Date(),
         },
       ],
       {}
@@ -46,5 +46,10 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    await queryInterface.bulkDelete("Types", null, {
+      truncate: true,
+      restartIdentity: true,
+      cascade: true,
+    });
   },
 };
