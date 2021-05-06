@@ -5,16 +5,12 @@
       <FilterAccommodationBar />
       <!-- post cards -->
       <div class="w-full lg:w-3/4 flex flex-row flex-wrap">
+        <AccommodationCard
+          v-for="accommodation in accommodations"
+          :key="accommodation.id"
+          :accommodation="accommodation"
+        />
         <Pagination />
-        <AccommodationCard />
-        <AccommodationCard />
-        <AccommodationCard />
-        <AccommodationCard />
-        <AccommodationCard />
-        <AccommodationCard />
-        <AccommodationCard />
-        <AccommodationCard />
-        <AccommodationCard />
       </div>
     </div>
   </main>
@@ -33,6 +29,14 @@ export default {
     FilterAccommodationBar,
     AccommodationHeader,
     Pagination,
+  },
+  computed: {
+    accommodations() {
+      return this.$store.state.accommodations;
+    },
+  },
+  created() {
+    this.$store.dispatch('fetchAccommodations');
   },
 };
 </script>

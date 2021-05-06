@@ -17,15 +17,15 @@
 </template>
 
 <script>
-import AccommodationHeader from '../components/AccommodationHeader';
-import AccommodationCard from '../components/AccommodationCard';
+import AccommodationHeader from '../components/AccommodationHeader.vue';
+import AccommodationCard from '../components/AccommodationCard.vue';
 
 export default {
   name: 'BookmarkList',
   components: {
     AccommodationHeader,
     AccommodationCard,
-  }
+  },
 };
 </script>
 
