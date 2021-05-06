@@ -4,6 +4,7 @@ module.exports = (req) => {
   let whereOptions = {
     status: "active",
   };
+  
   if (req.query.name) {
     let regexFormat = "";
     const splittedName = req.query.name.split(" ");

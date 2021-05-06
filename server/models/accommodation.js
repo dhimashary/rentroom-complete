@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
       Accommodation.belongsTo(models.User, {
         foreignKey: "authorId",
       });
+      Accommodation.hasMany(models.Bookmark, {
+        foreignKey: "accommodationId"
+      });
     }
   }
   Accommodation.init(

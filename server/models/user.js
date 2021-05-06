@@ -7,6 +7,9 @@ module.exports = (sequelize, DataTypes) => {
       User.hasMany(models.Accommodation, {
         foreignKey: "authorId",
       });
+      User.hasMany(models.Bookmark, {
+        foreignKey: "customerId"
+      });
     }
   }
   User.init(

@@ -12,8 +12,10 @@ const {
   typeRoutes,
   historyRoutes,
   accommodationCustomerRoutes,
+  bookmarkRoutes
 } = require("./routes");
 const { errorHandler, Auth } = require("./middlewares");
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -23,6 +25,7 @@ app.use("/types", typeRoutes);
 app.use("/customers/accommodations/", accommodationCustomerRoutes);
 app.use("/customers/", customerRoutes);
 app.use(Auth.authentication);
+app.use("/customers/bookmarks", bookmarkRoutes);
 app.use("/histories", historyRoutes);
 app.use("/accommodations/", accommodationRoutes);
 app.use(errorHandler);

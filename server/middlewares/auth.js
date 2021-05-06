@@ -63,6 +63,14 @@ class Auth {
       next();
     }
   }
+
+  static authorizationCustomerOnly(req, res, next) {
+    if (req.loggedInUser.role !== "customer") {
+      next(createError(401, "Access Unauthorized"));
+    } else {
+      next();
+    }
+  }
 }
 
 module.exports = Auth;
