@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_ENV=test sequelize db:seed:all && jest --detectOpenHandles --runInBand --forceExit",
     "dev": "nodemon http/server.js",
     "start": "node http/server.js"
   },
@@ -25,6 +25,8 @@
   },
   "devDependencies": {
     "dotenv": "^8.2.0",
-    "nodemon": "^2.0.7"
+    "jest": "^26.6.3",
+    "nodemon": "^2.0.7",
+    "supertest": "^6.1.3"
   }
 }

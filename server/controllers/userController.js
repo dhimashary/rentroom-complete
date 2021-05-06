@@ -30,7 +30,7 @@ class UserController {
     User.create({
       email,
       password,
-      role: "customer"
+      role: "customer",
     })
       .then((user) => {
         const { id, email, role } = user;
@@ -51,16 +51,20 @@ class UserController {
       },
     })
       .then((user) => {
-        const isPasswordValid = bcryptjs.compareSync(password, user.password);
-        if (user && isPasswordValid) {
-          const { id, email, role } = user;
-          const accessToken = jwt.sign(
-            { id, email, role },
-            process.env.JWT_SECRET
-          );
-          res.status(200).json({ accessToken, email, role });
+        if (user) {
+          const isPasswordValid = bcryptjs.compareSync(password, user.password);
+          if (isPasswordValid) {
+            const { id, email, role } = user;
+            const accessToken = jwt.sign(
+              { id, email, role },
+              process.env.JWT_SECRET
+            );
+            res.status(200).json({ accessToken, email, role });
+          } else {
+            next(createError(400, "Invalid Email/Password"));
+          }
         } else {
-          throw createError(400, "Invalid Email/Password");
+          next(createError(400, "Invalid Email/Password"));
         }
       })
       .catch(next);
