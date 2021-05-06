@@ -10,7 +10,7 @@
           :key="accommodation.id"
           :accommodation="accommodation"
         />
-        <Pagination />
+        <Pagination v-if="accommodations.length"/>
       </div>
     </div>
   </main>
@@ -34,9 +34,17 @@ export default {
     accommodations() {
       return this.$store.state.accommodations;
     },
+    currentPage() {
+      return this.$store.state.currentPage;
+    },
   },
   created() {
-    this.$store.dispatch('fetchAccommodations');
+    return this.$store.dispatch('fetchAccommodations');
+  },
+  watch: {
+    currentPage() {
+      this.$store.dispatch('fetchAccommodations');
+    },
   },
 };
 </script>

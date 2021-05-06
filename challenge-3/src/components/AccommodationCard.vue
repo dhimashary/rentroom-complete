@@ -8,7 +8,7 @@
       <div class="px-4 py-2 mt-2 flex flex-col h-3/5 justify-between">
         <span class="flex flex-row">
           <span
-            class="inline-block rounded-full text-white bg-purple-500 py-1 px-4 py-1 font-bold mr-3 text-white text-sm mb-2"
+            :class="`inline-block rounded-full text-white py-1 px-4 py-1 font-bold mr-3 text-white text-sm mb-2 ${getTypeBGColor}`"
           >
             {{ accommodation.Type.name }}
           </span>
@@ -64,6 +64,16 @@ export default {
         return `${this.accommodation.facility.slice(0, 50)}...`;
       }
       return this.accommodation.facility;
+    },
+    getTypeBGColor() {
+      if (this.accommodation.Type.name === 'Hotel') {
+        return 'bg-purple-500';
+      } if (this.accommodation.Type.name === 'Apartment') {
+        return 'bg-yellow-500';
+      } if (this.accommodation.Type.name === 'Hostel') {
+        return 'bg-indigo-500';
+      }
+      return 'bg-green-500';
     },
   },
 };

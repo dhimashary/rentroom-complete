@@ -71,6 +71,7 @@
           class="border border-2 rounded-r px-4 py-2 w-full"
           type="number"
           placeholder="minimum price"
+          v-model="minprice"
         />
       </div>
       <div class="flex mb-2">
@@ -82,6 +83,7 @@
           class="border border-2 rounded-r px-4 py-2 w-full"
           type="number"
           placeholder="maximum price"
+          v-model="maxprice"
         />
       </div>
     </div>
@@ -96,6 +98,7 @@
           class="border border-2 rounded-r px-4 py-2 w-full"
           type="text"
           placeholder="e.g. Jakarta"
+          v-model="location"
         />
       </div>
     </div>
@@ -109,6 +112,7 @@
           class="border border-2 rounded-r px-4 py-2 w-full"
           type="text"
           placeholder="e.g. Hotel Jaya Wijaya"
+          v-model="name"
         />
       </div>
       <button
@@ -125,6 +129,43 @@
 <script>
 export default {
   name: 'FilterAccommodationBar',
+  computed: {
+    location: {
+      get() {
+        return this.$store.state.filterOptions.location;
+      },
+      set(value) {
+        this.$store.commit('UPDATE_FILTER_OPTIONS', { location: value });
+      },
+    },
+    name: {
+      get() {
+        return this.$store.state.filterOptions.name;
+      },
+      set(value) {
+        this.$store.commit('UPDATE_FILTER_OPTIONS', { name: value });
+      },
+    },
+    minprice: {
+      get() {
+        return this.$store.state.filterOptions.minprice;
+      },
+      set(value) {
+        this.$store.commit('UPDATE_FILTER_OPTIONS', { minprice: value });
+      },
+    },
+    maxprice: {
+      get() {
+        return this.$store.state.filterOptions.maxprice;
+      },
+      set(value) {
+        this.$store.commit('UPDATE_FILTER_OPTIONS', { maxprice: value });
+      },
+    },
+  },
+  created() {
+    console.log(this.$store.state.filterOptions);
+  },
 };
 </script>
 

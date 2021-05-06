@@ -7,19 +7,38 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     accommodations: [],
+    totalPage: 0,
+    currentPage: 1,
+    filterOptions: {
+      location: '',
+      name: '',
+      minprice: 0,
+      maxprice: 0,
+    },
   },
   mutations: {
     SET_ACCOMMODATIONS(state, payload) {
-      console.log('called mutation');
-      this.state.accommodations = payload.rows;
+      state.accommodations = payload.rows;
+      state.accommodationCount = payload.count;
+      state.totalPage = Math.ceil(payload.count / 12);
+    },
+    SET_CURRENT_PAGE(state, payload) {
+      state.currentPage = payload.page;
+    },
+    UPDATE_FILTER_OPTIONS(state, payload) {
+      console.log('called');
+      state.filterOptions = {
+        ...state.filterOptions,
+        ...payload,
+      };
+      console.log(state);
     },
   },
   actions: {
     fetchAccommodations(context) {
-      console.log('called');
       customerApi({
         method: 'GET',
-        url: '/accommodations',
+        url: `/accommodations?page=${context.state.currentPage}`,
       })
         .then(({ data }) => {
           context.commit('SET_ACCOMMODATIONS', data);
