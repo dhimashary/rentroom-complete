@@ -14,7 +14,10 @@ class AccommodationCustomerController {
       );
     } else {
       let whereOptions = getCustomerQueryFormat(req);
-      const limit = 3;
+      const limit = 12;
+      if (req.query.page < 1) {
+        req.query.page = 1
+      }
       const page = req.query.page || 1;
       const offset = (page - 1) * limit;
       Accommodation.findAndCountAll({
