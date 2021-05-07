@@ -4,13 +4,16 @@
     <div class="block lg:flex lg:space-x-2 px-2 lg:p-0 mt-10 mb-10">
       <FilterAccommodationBar />
       <!-- post cards -->
-      <div class="w-full lg:w-3/4 flex flex-row flex-wrap">
+      <div class="w-full lg:w-3/4 flex flex-row flex-wrap" v-if="!isLoading">
         <AccommodationCard
           v-for="accommodation in accommodations"
           :key="accommodation.id"
           :accommodation="accommodation"
         />
         <Pagination v-if="accommodations.length"/>
+      </div>
+      <div class="w-full lg:w-3/4 flex flex-row flex-wrap justify-center items-center" v-else>
+        <iframe src="https://giphy.com/embed/5AtXMjjrTMwvK" width="480" height="480" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
       </div>
     </div>
   </main>
@@ -37,9 +40,13 @@ export default {
     currentPage() {
       return this.$store.state.currentPage;
     },
+    isLoading() {
+      return this.$store.state.loadingAccommodation;
+    },
   },
   created() {
-    return this.$store.dispatch('fetchAccommodations');
+    this.$store.dispatch('fetchAccommodations');
+    this.$store.dispatch('fetchBookmarks');
   },
   watch: {
     currentPage() {

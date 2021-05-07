@@ -10,11 +10,12 @@
           class="px-1 py-4 border-b border-t border-white hover:border-gray-200 transition duration-300"
         >
           <div class="flex items-center text-gray-600 cursor-pointer">
-            <span class="inline-block h-4 w-4 bg-green-300 mr-3"></span>
+            <span class="inline-block h-4 w-4 bg-green-500 mr-3"></span>
             <span>Guest House</span>
             <input
               type="checkbox"
               class="form-checkbox h-5 w-5 text-gray-600 ml-auto"
+              v-model="isGuestHouse"
             />
           </div>
         </li>
@@ -22,11 +23,12 @@
           class="px-1 py-4 border-b border-t border-white hover:border-gray-200 transition duration-300"
         >
           <div class="flex items-center text-gray-600 cursor-pointer">
-            <span class="inline-block h-4 w-4 bg-indigo-300 mr-3"></span>
+            <span class="inline-block h-4 w-4 bg-blue-500 mr-3"></span>
             <span>Hotel</span>
             <input
               type="checkbox"
               class="form-checkbox h-5 w-5 text-gray-600 ml-auto"
+              v-model="isHotel"
             />
           </div>
         </li>
@@ -34,11 +36,12 @@
           class="px-1 py-4 border-b border-t border-white hover:border-gray-200 transition duration-300"
         >
           <div class="flex items-center text-gray-600 cursor-pointer">
-            <span class="inline-block h-4 w-4 bg-yellow-300 mr-3"></span>
+            <span class="inline-block h-4 w-4 bg-yellow-500 mr-3"></span>
             <span>Apartment</span>
             <input
               type="checkbox"
               class="form-checkbox h-5 w-5 text-gray-600 ml-auto"
+              v-model="isApartment"
             />
           </div>
         </li>
@@ -46,11 +49,12 @@
           class="px-1 py-4 border-b border-t border-white hover:border-gray-200 transition duration-300"
         >
           <div class="flex items-center text-gray-600 cursor-pointer">
-            <span class="inline-block h-4 w-4 bg-blue-300 mr-3"></span>
+            <span class="inline-block h-4 w-4 bg-indigo-500 mr-3"></span>
             <span>Hostel</span>
             <input
               type="checkbox"
               class="form-checkbox h-5 w-5 text-gray-600 ml-auto"
+              v-model="isHostel"
             />
           </div>
         </li>
@@ -116,9 +120,16 @@
         />
       </div>
       <button
-        class="px-4 py-2 bg-indigo-600 text-gray-200 rounded-b w-full capitalize tracking-wide"
+        @click="fetchAccommodations"
+        class="px-4 py-2 mb-3 bg-indigo-600 text-gray-200 rounded-b w-full capitalize tracking-wide"
       >
         Search
+      </button>
+      <button
+        @click="resetFilterOptions"
+        class="px-4 py-2 bg-white border border-indigo-600 text-indigo-600 rounded-b w-full capitalize tracking-wide"
+      >
+        Clear Search
       </button>
     </div>
 
@@ -162,9 +173,75 @@ export default {
         this.$store.commit('UPDATE_FILTER_OPTIONS', { maxprice: value });
       },
     },
+    isGuestHouse: {
+      get() {
+        return this.$store.state.filterOptions.type.includes(1);
+      },
+      set(value) {
+        if (value) {
+          this.$store.commit('UPDATE_TYPE_FILTER_OPTIONS', { type: 1 });
+        } else {
+          this.$store.commit('UPDATE_TYPE_FILTER_OPTIONS', { type: 1, option: 'remove' });
+        }
+      },
+    },
+    isHotel: {
+      get() {
+        return this.$store.state.filterOptions.type.includes(2);
+      },
+      set(value) {
+        if (value) {
+          this.$store.commit('UPDATE_TYPE_FILTER_OPTIONS', { type: 2 });
+        } else {
+          this.$store.commit('UPDATE_TYPE_FILTER_OPTIONS', { type: 2, option: 'remove' });
+        }
+      },
+    },
+    isApartment: {
+      get() {
+        return this.$store.state.filterOptions.type.includes(3);
+      },
+      set(value) {
+        if (value) {
+          this.$store.commit('UPDATE_TYPE_FILTER_OPTIONS', { type: 3 });
+        } else {
+          this.$store.commit('UPDATE_TYPE_FILTER_OPTIONS', { type: 3, option: 'remove' });
+        }
+      },
+    },
+    isHostel: {
+      get() {
+        return this.$store.state.filterOptions.type.includes(4);
+      },
+      set(value) {
+        if (value) {
+          this.$store.commit('UPDATE_TYPE_FILTER_OPTIONS', { type: 4 });
+        } else {
+          this.$store.commit('UPDATE_TYPE_FILTER_OPTIONS', { type: 4, option: 'remove' });
+        }
+      },
+    },
   },
-  created() {
-    console.log(this.$store.state.filterOptions);
+  methods: {
+    fetchAccommodations() {
+      if (this.minprice > this.maxprice && this.maxprice && this.minprice) {
+        console.log('Min Price must be lower than maxprice !');
+      } else {
+        this.$store.commit('SET_CURRENT_PAGE', { page: 1 });
+        this.$store.dispatch('fetchAccommodations');
+      }
+    },
+    resetFilterOptions() {
+      this.$store.commit('UPDATE_FILTER_OPTIONS', {
+        name: '',
+        location: '',
+        minprice: '',
+        maxprice: '',
+        type: [],
+      });
+      this.$store.commit('SET_CURRENT_PAGE', { page: 1 });
+      this.$store.dispatch('fetchAccommodations');
+    },
   },
 };
 </script>

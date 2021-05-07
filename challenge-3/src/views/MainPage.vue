@@ -3,7 +3,7 @@
     <div class="max-w-screen-xl mx-auto">
       <!-- header -->
       <Navbar />
-      <AccommodationList />
+      <router-view />
     </div>
     <Footer />
   </div>
@@ -11,14 +11,12 @@
 
 <script>
 import Navbar from '../components/Navbar.vue';
-import AccommodationList from './AccommodationList.vue';
 import Footer from '../components/Footer.vue';
 
 export default {
   name: 'MainPage',
   components: {
     Navbar,
-    AccommodationList,
     Footer,
   },
 };

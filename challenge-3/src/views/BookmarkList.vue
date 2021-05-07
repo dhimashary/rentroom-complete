@@ -2,16 +2,13 @@
   <main class="mt-10">
     <AccommodationHeader />
     <!-- post cards -->
+    <h1 class="block mt-10 mb-5 text-4xl font-bold ml-3">My Bookmark List</h1>
     <div class="w-full flex flex-row flex-wrap">
-      <AccommodationCard />
-      <AccommodationCard />
-      <AccommodationCard />
-      <AccommodationCard />
-      <AccommodationCard />
-      <AccommodationCard />
-      <AccommodationCard />
-      <AccommodationCard />
-      <AccommodationCard />
+      <AccommodationCard
+        v-for="bookmark in bookmarks"
+        :key="`${bookmark.accommodationId}${bookmark.customerId}`"
+        :accommodation="bookmark.Accommodation"
+      />
     </div>
   </main>
 </template>
@@ -25,6 +22,20 @@ export default {
   components: {
     AccommodationHeader,
     AccommodationCard,
+  },
+  computed: {
+    bookmarks() {
+      return this.$store.state.bookmarks;
+    },
+  },
+  created() {
+    this.$toast.open({
+      message: 'Loading Your Bookmark, Please Wait',
+      type: 'info',
+      duration: 0,
+      position: 'top-right',
+    });
+    this.$store.dispatch('fetchBookmarks');
   },
 };
 </script>

@@ -1,37 +1,40 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/MainPage.vue';
+import MainPage from '../views/MainPage.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home,
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    component: MainPage,
+    children: [
+      {
+        path: '',
+        name: 'Accommodations',
+        component: () => import(/* webpackChunkName: "Accommodations" */ '../views/AccommodationList.vue'),
+      },
+      {
+        path: 'bookmarks',
+        name: 'Bookmarks',
+        component: () => import(/* webpackChunkName: "Bookmarks" */ '../views/BookmarkList.vue'),
+      },
+    ],
   },
   {
     path: '/signin',
     name: 'SignIn',
-    component: () => import(/* webpackChunkName: "about" */ '../views/SignInPage.vue'),
+    component: () => import(/* webpackChunkName: "SignIn" */ '../views/SignInPage.vue'),
   },
   {
     path: '/signup',
     name: 'SignUp',
-    component: () => import(/* webpackChunkName: "about" */ '../views/SignUpPage.vue'),
+    component: () => import(/* webpackChunkName: "SignUp" */ '../views/SignUpPage.vue'),
   },
   {
     path: '*',
     name: 'PageNotFound',
-    component: () => import(/* webpackChunkName: "about" */ '../views/404.vue'),
+    component: () => import(/* webpackChunkName: "404" */ '../views/404.vue'),
   },
 ];
 

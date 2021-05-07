@@ -15,6 +15,8 @@
           <font-awesome-icon
             class="ml-auto text-gray-500 cursor-pointer mt-1"
             :icon="['far', 'bookmark']"
+            v-if="isLogin && !alreadyBookmarked"
+            @click="$store.dispatch('createBookmarks', { id: accommodation.id, })"
           />
         </span>
         <h2 class="font-bold text-lg text-gray-800 tracking-normal mb-1">
@@ -67,13 +69,23 @@ export default {
     },
     getTypeBGColor() {
       if (this.accommodation.Type.name === 'Hotel') {
-        return 'bg-purple-500';
+        return 'bg-blue-500';
       } if (this.accommodation.Type.name === 'Apartment') {
         return 'bg-yellow-500';
       } if (this.accommodation.Type.name === 'Hostel') {
         return 'bg-indigo-500';
       }
       return 'bg-green-500';
+    },
+    isLogin() {
+      return localStorage.access_token;
+    },
+    alreadyBookmarked() {
+      const bookmarked = this.$store.state.bookmarks.filter((item) => item.accommodationId === this.accommodation.id);
+      if (bookmarked.length === 0) {
+        return false;
+      }
+      return true;
     },
   },
 };

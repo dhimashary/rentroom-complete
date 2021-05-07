@@ -3,7 +3,7 @@
     <div
       class="w-1/2 bg-cover md:block hidden"
       style="
-        background-image: url(https://images.unsplash.com/photo-1520243947988-b7b79f7873e9?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NDd8fGJsYWNrJTIwZm9yZXN0fGVufDB8fDB8eWVsbG93&ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=60);
+        background-image: url(https://images.pexels.com/photos/4058916/pexels-photo-4058916.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500);
       "
     ></div>
     <!-- <div class="bg-no-repeat bg-right bg-cover max-w-max max-h-8 h-12 overflow-hidden">
@@ -17,20 +17,15 @@
         </h1>
         <h3 class="p-1 text-gray-700">Free forever. No payment needed.</h3>
       </div>
-      <form action="#" class="p-0">
+      <form @submit.prevent="$store.dispatch('register', { email, password })" class="p-0">
         <div class="mt-5">
           <!-- <label for="email" class="sc-bqyKva ePvcBv">Email</label> -->
           <input
             type="text"
             class="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent"
             placeholder="Email"
-          />
-        </div>
-        <div class="mt-5">
-          <input
-            type="text"
-            class="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent"
-            placeholder="User-name"
+            v-model="email"
+            required
           />
         </div>
         <div class="mt-5">
@@ -38,11 +33,12 @@
             type="password"
             class="block w-full p-2 border rounded border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-transparent"
             placeholder="Password"
+            v-model="password"
           />
         </div>
 
         <div class="mt-6 block p-5 text-sm md:font-sans text-xs text-gray-800">
-          <input type="checkbox" class="inline-block border-0" />
+          <input type="checkbox" class="inline-block border-0" required/>
           <span display="inline" class=""
             >By creating an account you are agreeing to our
             <a class="" href="/s/terms" target="_blank" data-test="Link">
@@ -56,16 +52,21 @@
         </div>
 
         <div class="mt-10">
-          <input
+          <button
             type="submit"
-            value="Sign up with email"
             class="py-3 bg-green-500 text-white w-full rounded hover:bg-green-600"
-          />
+          >Sign up with email</button>
         </div>
       </form>
       <span class="" data-test="Link"
         ><span class="block p-5 text-center text-gray-800 text-md"
           >Already have an account? <a class="text-blue-500 cursor-pointer" @click="$router.push('signin')">Sign In Here</a></span
+        ></span
+      >
+      <span class="block text-center text-gray-800 text-md"
+        >Want to search the accommodation first?
+        <a class="text-blue-500 cursor-pointer" @click="$router.push('/')"
+          >Back To Home</a
         ></span
       >
     </div>
@@ -75,6 +76,12 @@
 <script>
 export default {
   name: 'SignUpPage',
+  data() {
+    return {
+      email: '',
+      password: '',
+    };
+  },
 };
 </script>
 
