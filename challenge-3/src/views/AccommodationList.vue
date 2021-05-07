@@ -197,7 +197,7 @@
       </div>
       <div
         class="w-full lg:w-3/4 flex flex-row flex-wrap justify-center items-center"
-        v-else
+        v-else-if="isLoading"
       >
         <iframe
           src="https://giphy.com/embed/5AtXMjjrTMwvK"
@@ -239,7 +239,9 @@ export default {
   },
   created() {
     this.$store.dispatch('fetchAccommodations');
-    this.$store.dispatch('fetchBookmarks');
+    if (localStorage.access_token) {
+      this.$store.dispatch('fetchBookmarks');
+    }
   },
   watch: {
     currentPage() {

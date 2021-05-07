@@ -37,6 +37,13 @@ export default {
     });
     this.$store.dispatch('fetchBookmarks');
   },
+  beforeRouteEnter(to, from, next) {
+    if (localStorage.getItem('access_token')) {
+      next();
+    } else {
+      next('/signin');
+    }
+  },
 };
 </script>
 

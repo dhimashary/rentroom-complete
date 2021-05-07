@@ -34,18 +34,28 @@ export default new Vuex.Store({
       state.currentPage = payload.page;
     },
     UPDATE_FILTER_OPTIONS(state, payload) {
-      state.filterOptions = {
-        ...state.filterOptions,
-        ...payload,
-      };
+      if (payload.minprice) {
+        state.filterOptions = {
+          ...state.filterOptions,
+          minprice: +payload.minprice,
+        };
+      } else if (payload.maxprice) {
+        state.filterOptions = {
+          ...state.filterOptions,
+          maxprice: +payload.maxprice,
+        };
+      } else {
+        state.filterOptions = {
+          ...state.filterOptions,
+          ...payload,
+        };
+      }
     },
     UPDATE_TYPE_FILTER_OPTIONS(state, payload) {
       if (payload.option === 'remove') {
         state.filterOptions.type = state.filterOptions.type.filter((num) => num !== payload.type);
-        console.log(state);
       } else {
         state.filterOptions.type.push(payload.type);
-        console.log(state);
       }
     },
     SET_LOADING_ACCOMMODATION(state, payload) {
