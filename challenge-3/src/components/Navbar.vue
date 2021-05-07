@@ -1,7 +1,7 @@
 <template>
   <header class="flex items-center justify-between py-2 border-b">
     <span @click="$router.push('accommodations')" class="px-2 lg:px-0 uppercase font-bold text-purple-800">
-      LOGO
+      <img src="../assets/rent-logo.png" alt="" />
     </span>
     <ul class="inline-flex items-center">
       <li class="px-2 md:px-4">
