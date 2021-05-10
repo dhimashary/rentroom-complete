@@ -44,13 +44,34 @@ function generateAccomodationRow(accommodation) {
   </tr>`;
 }
 
-function generateAccommodationsTable(accommodations) {
+function generateAccommodationsTable() {
   let accommodationsTable = "";
   $("#accommodationRows").empty();
-  accommodations.forEach((accommodation) => {
+  const currentTableRows = accommodations.slice(
+    (currentTablePage - 1) * totalRowPage,
+    (currentTablePage) * totalRowPage
+  );
+  console.log(currentTableRows)
+  currentTableRows.forEach((accommodation) => {
     accommodationsTable += generateAccomodationRow(accommodation);
   });
   $("#accommodationRows").append(accommodationsTable);
+}
+
+function changeTableData(page) {
+  currentTablePage = page;
+  generateAccommodationsTable()
+}
+
+function generatePagination() {
+  const paginationHolder = $("#pagination");
+  console.log("generating panigation", totalTablePage)
+  for (let i = 0; i < totalTablePage; i++) {
+    const current = i + 1
+    paginationHolder.append(`<li class="page-item">
+      <a class="page-link" href="#" onclick="changeTableData(${current})">${current}</a>
+    </li>`);
+  }
 }
 
 function changeCurrentEmailAndRole(data) {

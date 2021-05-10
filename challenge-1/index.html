@@ -51,10 +51,10 @@
         <form class="col-10 col-md-6 col-lg-4 mx-auto" id="formLogin">
           <img
             class="mb-4"
-            src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg"
+            src="./assets/img/rent-logo.png"
             alt=""
-            width="72"
-            height="57"
+            width="200"
+            height="100"
           />
           <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
@@ -79,11 +79,6 @@
             <label for="floatingPassword">Password</label>
           </div>
 
-          <div class="checkbox mb-3">
-            <label>
-              <input type="checkbox" value="remember-me" /> Remember me
-            </label>
-          </div>
           <button class="w-100 btn btn-lg btn-primary mb-3" type="submit">
             Sign in
           </button>
@@ -91,7 +86,7 @@
             <p>
               create your account here
               <span class="btn btn-success btn-sm" onclick="showRegisterPage()"
-                >Register here</span
+                >Sign Up here</span
               >
             </p>
           </div>
@@ -110,12 +105,12 @@
         <form class="col-10 col-md-6 col-lg-4 mx-auto" id="formRegister">
           <img
             class="mb-4"
-            src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg"
+            src="./assets/img/rent-logo.png"
             alt=""
-            width="72"
-            height="57"
+            width="200"
+            height="100"
           />
-          <h1 class="h3 mb-3 fw-normal">Register</h1>
+          <h1 class="h3 mb-3 fw-normal">Sign Up</h1>
 
           <div class="form-floating">
             <input
@@ -148,7 +143,7 @@
             <p>
               Already have an account?
               <span class="btn btn-success btn-sm" onclick="showLoginPage()"
-                >Login to your account here</span
+                >Sign In to your account here</span
               >
             </p>
           </div>
@@ -182,7 +177,7 @@
               <li class="sidebar-title">Menu</li>
 
               <li class="sidebar-item active">
-                <a href="table.html" class="sidebar-link">
+                <a href="#" class="sidebar-link">
                   <i class="bi bi-grid-fill"></i>
                   <span>Accomodation</span>
                 </a>
@@ -501,6 +496,10 @@ AC, PS4, WIFI</textarea
                     </tr>
                   </tbody>
                 </table>
+                <nav aria-label="Page navigation example">
+                  <ul class="pagination justify-content-center" id="pagination">
+                  </ul>
+                </nav>
               </div>
             </div>
           </section>
@@ -518,6 +517,10 @@ AC, PS4, WIFI</textarea
     <script>
       const baseUrl = "http://localhost:3000";
       let currentPage, updatedId;
+      let totalTablePage = 0;
+      const totalRowPage = 8;
+      let currentTablePage = 1;
+      let accommodations = [];
     </script>
     <script src="assets/js/domManipulation.js"></script>
     <script src="assets/js/serverRequest.js"></script>

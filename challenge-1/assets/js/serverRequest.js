@@ -1,3 +1,5 @@
+
+
 function updateAccommodation(id) {
   const updatedAccommodation = getAccommodationFormInput();
   axios({
@@ -68,7 +70,11 @@ function getAccommodations() {
     },
   })
     .then(({ data }) => {
-      generateAccommodationsTable(data);
+      totalTablePage = Math.ceil(data.length / totalRowPage)
+      currentTablePage = 1
+      accommodations = data;
+      generatePagination();
+      generateAccommodationsTable();
     })
     .catch((err) => {
       console.log(err);
