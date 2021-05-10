@@ -1,14 +1,19 @@
-
-
 function updateAccommodation(id) {
   const updatedAccommodation = getAccommodationFormInput();
+  if (!formData.has("accommodationImage")) {
+    updatedAccommodation.imgUrl = $("#imgUrl").text();
+  }
+  for (let key in updatedAccommodation) {
+    formData.append(key, updatedAccommodation[key]);
+  }
+  setAppNotif("alert-success", "Updating new Data please wait");
   axios({
     method: "PUT",
     url: `${baseUrl}/accommodations/${id}`,
     headers: {
       access_token: localStorage.getItem("access_token"),
     },
-    data: updatedAccommodation,
+    data: formData,
   })
     .then(({ data }) => {
       setAppNotif("alert-success", "Update Accommodation Success");
@@ -22,6 +27,8 @@ function updateAccommodation(id) {
       updatedId = null;
       currentPage = null;
       $("#accommodationForm").trigger("reset");
+      formData = new FormData();
+      $("#fileInput").val(null);
     });
 }
 
@@ -70,8 +77,8 @@ function getAccommodations() {
     },
   })
     .then(({ data }) => {
-      totalTablePage = Math.ceil(data.length / totalRowPage)
-      currentTablePage = 1
+      totalTablePage = Math.ceil(data.length / totalRowPage);
+      currentTablePage = 1;
       accommodations = data;
       generatePagination();
       generateAccommodationsTable();
@@ -83,27 +90,39 @@ function getAccommodations() {
 
 function createNewAccommodation() {
   const newAccommodation = getAccommodationFormInput();
-  axios({
-    method: "POST",
-    url: `${baseUrl}/accommodations`,
-    headers: {
-      access_token: localStorage.getItem("access_token"),
-    },
-    data: newAccommodation,
-  })
-    .then(({ data }) => {
-      setAppNotif("alert-success", "Create new Accommodation Success");
-      toggleButtonAccommodationForm();
-      showMainPage();
+  delete newAccommodation.imgUrl;
+  if (formData.has("accommodationImage") === false) {
+    setAppNotif("alert-danger", "Image must be provided");
+  } else {
+    for (let key in newAccommodation) {
+      formData.append(key, newAccommodation[key]);
+    }
+    setAppNotif("alert-success", "Uploading new Data please wait");
+    axios({
+      method: "POST",
+      url: `${baseUrl}/accommodations`,
+      headers: {
+        access_token: localStorage.getItem("access_token"),
+      },
+      data: formData,
     })
-    .catch((err) => {
-      setAppNotif("alert-danger", err.response.data.message);
-    })
-    .finally((_) => {
-      $("#accommodationForm").trigger("reset");
-    });
+      .then(({ data }) => {
+        setAppNotif("alert-success", "Create new Accommodation Success");
+        setTimeout(() => {
+          toggleButtonAccommodationForm();
+          showMainPage();
+        }, 1000);
+      })
+      .catch((err) => {
+        setAppNotif("alert-danger", err.response.data.message);
+      })
+      .finally((_) => {
+        $("#accommodationForm").trigger("reset");
+        formData = new FormData();
+        $("#fileInput").val(null);
+      });
+  }
 }
-
 
 function login() {
   const email = $("#emailLogin").val();

@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  $("#imgPreview").hide()
   if (localStorage.access_token) {
     changeCurrentEmailAndRole({
       email: localStorage.email,

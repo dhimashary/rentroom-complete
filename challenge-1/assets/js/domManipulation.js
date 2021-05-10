@@ -49,9 +49,8 @@ function generateAccommodationsTable() {
   $("#accommodationRows").empty();
   const currentTableRows = accommodations.slice(
     (currentTablePage - 1) * totalRowPage,
-    (currentTablePage) * totalRowPage
+    currentTablePage * totalRowPage
   );
-  console.log(currentTableRows)
   currentTableRows.forEach((accommodation) => {
     accommodationsTable += generateAccomodationRow(accommodation);
   });
@@ -60,14 +59,14 @@ function generateAccommodationsTable() {
 
 function changeTableData(page) {
   currentTablePage = page;
-  generateAccommodationsTable()
+  generateAccommodationsTable();
 }
 
 function generatePagination() {
   const paginationHolder = $("#pagination");
-  console.log("generating panigation", totalTablePage)
+  paginationHolder.empty();
   for (let i = 0; i < totalTablePage; i++) {
-    const current = i + 1
+    const current = i + 1;
     paginationHolder.append(`<li class="page-item">
       <a class="page-link" href="#" onclick="changeTableData(${current})">${current}</a>
     </li>`);
@@ -109,6 +108,8 @@ function toggleButtonAccommodationForm() {
     $("#app").show();
     $("#mainTable").hide();
     $("#accommodationFormContainer").show();
+    $("#imgPreview").removeAttr("src");
+    $("#imgPreview").hide();
     $("#accommodationFormHeader").text("Add New Accommodation");
   } else {
     toggleButton.addClass("hide-form");
@@ -131,7 +132,6 @@ async function showUpdateForm(id) {
     toggleButton.removeClass("hide-form");
     toggleButton.text("Show Accommodation List");
     $("#accommodationFormHeader").text("Update Accommodation");
-    console.log(id);
     const accommodation = await getAccommodationById(id);
     const {
       name,
@@ -142,13 +142,15 @@ async function showUpdateForm(id) {
       facility,
       imgUrl,
     } = accommodation;
+    $("#imgPreview").attr("src", imgUrl);
+    $("#imgPreview").show();
     $("#name").val(name);
     $("#roomCapacity").val(roomCapacity);
     $("#price").val(price);
     $("#typeId").val(Type.id);
     $("#location").val(location);
     $("#facility").text(facility);
-    $("#imgUrl").val(imgUrl);
+    $("#imgUrl").text(imgUrl);
   } catch (error) {
     setAppNotif("alert-danger", "Oops Something is Wrong ! :(");
   }
@@ -159,16 +161,13 @@ function getAccommodationFormInput() {
   // const formInput = new FormData($("#accommodationForm"))
   const formInputChildren = $("#accommodationForm").children();
   $("#accommodationForm input, select, textarea").each(function () {
-    var input = $(this); // This is the jquery object of the input, do what you will
-    console.log(input.attr("id"));
-    console.log(input.val());
+    var input = $(this); 
     if (input.attr("type") === "number") {
       newAccommodation[input.attr("id")] = Number(input.val());
     } else {
       newAccommodation[input.attr("id")] = input.val();
     }
   });
-  console.log(newAccommodation);
   return newAccommodation;
 }
 
@@ -198,8 +197,34 @@ function setAppNotif(status, message) {
   notifId.show();
   content.addClass(status);
   content.text(message);
-  console.log("IM HERE");
   setTimeout(() => {
     notifId.hide();
   }, 20000);
+}
+
+function setImage(event) {
+  const file = event.target.files[0];
+  if (
+    file.type !== "image/jpeg" &&
+    file.type !== "image/jpg" &&
+    file.type !== "image/png"
+  ) {
+    event.target.value = "";
+  } else {
+    if (file.size > 262144) {
+      event.target.value = "";
+      setAppNotif("alert-danger", "Image size can't be more than 250 KB");
+     
+    } else {
+      formData.append("fileName", event.target.files[0].name);
+      formData.append("accommodationImage", event.target.files[0]);
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (e) => {
+        previewImage = e.target.result;
+        $("#imgPreview").attr("src", e.target.result);
+        $("#imgPreview").show();
+      };
+    }
+  }
 }

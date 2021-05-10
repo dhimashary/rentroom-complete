@@ -158,6 +158,7 @@
 
     <!-- main app -->
     <div id="app">
+      <!-- sidebar -->
       <div id="sidebar" class="active">
         <div class="sidebar-wrapper active">
           <div class="sidebar-header">
@@ -189,6 +190,7 @@
           </button>
         </div>
       </div>
+
       <div id="main">
         <header class="mb-3">
           <nav class="navbar navbar-expand navbar-light">
@@ -381,10 +383,10 @@
                       aria-label="Default select example"
                       required
                     >
-                      <option value="2" selected>Guest House</option>
-                      <option value="3">Hotel</option>
-                      <option value="4">Apartment</option>
-                      <option value="5">Hostel</option>
+                      <option value="1" selected>Guest House</option>
+                      <option value="2">Hotel</option>
+                      <option value="3">Apartment</option>
+                      <option value="4">Hostel</option>
                       <option value="6">Error</option>
                     </select>
                   </div>
@@ -417,13 +419,25 @@ AC, PS4, WIFI</textarea
                     </div>
                   </div>
                   <div class="mb-3">
-                    <label for="imgUrl" class="form-label">Image Link</label>
-                    <input
+                    <label for="imgUrl" class="form-label d-block">Image Link</label>
+                    <p
                       type="text"
-                      class="form-control"
+                      class="text-white"
+                      name="imgUrl"
                       id="imgUrl"
-                      value="https://dereizvilla.com/wp-content/uploads/2017/11/IMG-20200706-WA0020-1110x623.jpg"
-                      required
+                    ></p>
+                    <img
+                      id="imgPreview"
+                      class="mb-3"
+                      style="width: 250px; height: 250px"
+                    />
+                    <input
+                      type="file"
+                      accept="image/png, image/jpeg, image/jpg"
+                      onchange="setImage(event)"
+                      id="fileInput"
+                      name="inputFile"
+                      class="form-control"
                     />
                   </div>
                   <div class="mb-3">
@@ -497,8 +511,10 @@ AC, PS4, WIFI</textarea
                   </tbody>
                 </table>
                 <nav aria-label="Page navigation example">
-                  <ul class="pagination justify-content-center" id="pagination">
-                  </ul>
+                  <ul
+                    class="pagination justify-content-center"
+                    id="pagination"
+                  ></ul>
                 </nav>
               </div>
             </div>
@@ -521,6 +537,8 @@ AC, PS4, WIFI</textarea
       const totalRowPage = 8;
       let currentTablePage = 1;
       let accommodations = [];
+      let previewImage = null;
+      let formData = new FormData();
     </script>
     <script src="assets/js/domManipulation.js"></script>
     <script src="assets/js/serverRequest.js"></script>
