@@ -265,6 +265,7 @@ export default new Vuex.Store({
       })
         .then(({ data }) => {
           localStorage.access_token = data.accessToken;
+          localStorage.avatar = data.avatar;
           router.push('/');
         })
         .catch((err) => {

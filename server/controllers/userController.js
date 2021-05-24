@@ -70,6 +70,36 @@ class UserController {
       .catch(next);
   }
 
+  static loginAdminStaff(req, res, next) {
+    const { email, password } = req.body;
+    User.findOne({
+      where: {
+        email,
+      },
+    })
+      .then((user) => {
+        if (user) {
+          if (user.role === "customer") {
+            throw createError(401, "You already registered as Customer");
+          }
+          const isPasswordValid = bcryptjs.compareSync(password, user.password);
+          if (isPasswordValid) {
+            const { id, email, role, avatar } = user;
+            const accessToken = jwt.sign(
+              { id, email, role },
+              process.env.JWT_SECRET
+            );
+            res.status(200).json({ accessToken, email, role, avatar });
+          } else {
+            next(createError(400, "Invalid Email/Password"));
+          }
+        } else {
+          next(createError(400, "Invalid Email/Password"));
+        }
+      })
+      .catch(next);
+  }
+
   static async googleLogin(req, res, next) {
     try {
       const ticket = await client.verifyIdToken({
@@ -91,7 +121,10 @@ class UserController {
           role: "staff",
         });
       } else if (user.role !== "customer") {
-        throw createError(401, "Your account already registered as " + user.role)
+        throw createError(
+          401,
+          "Your account already registered as " + user.role
+        );
       }
       const { id, email, role } = user;
       const accessToken = jwt.sign({ id, email, role }, process.env.JWT_SECRET);
@@ -120,7 +153,10 @@ class UserController {
           role: "customer",
         });
       } else if (user.role !== "customer") {
-        throw createError(401, "Your account already registered as admin/staff")
+        throw createError(
+          401,
+          "Your account already registered as admin/staff"
+        );
       }
       const { id, email, role, avatar } = user;
       const accessToken = jwt.sign({ id, email, role }, process.env.JWT_SECRET);
