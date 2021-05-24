@@ -115,6 +115,7 @@ export default new Vuex.Store({
       })
         .then(({ data }) => {
           localStorage.access_token = data.accessToken;
+          localStorage.avatar = data.avatar;
           router.push('/');
         })
         .catch((err) => {
@@ -149,6 +150,7 @@ export default new Vuex.Store({
       })
         .then(({ data }) => {
           localStorage.access_token = data.accessToken;
+          localStorage.avatar = data.avatar;
           router.push('/');
         })
         .catch((err) => {
@@ -246,6 +248,39 @@ export default new Vuex.Store({
           position: 'top-right',
         });
       }
+    },
+    googleSignIn(_, googleToken) {
+      Vue.$toast.open({
+        message: 'Loading, Please Wait',
+        type: 'info',
+        duration: 0,
+        position: 'top-right',
+      });
+      customerApi({
+        method: 'POST',
+        url: '/googlelogin',
+        data: {
+          googleToken,
+        },
+      })
+        .then(({ data }) => {
+          localStorage.access_token = data.accessToken;
+          router.push('/');
+        })
+        .catch((err) => {
+          localStorage.clear();
+          Vue.$toast.open({
+            message: err.response.data.message,
+            type: 'error',
+            duration: 0,
+            position: 'top-right',
+          });
+        })
+        .finally(() => {
+          setTimeout(() => {
+            Vue.$toast.clear();
+          }, 2000);
+        });
     },
   },
   getters: {
