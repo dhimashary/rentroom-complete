@@ -8,8 +8,11 @@
       </div>
     </td>
     <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-500">
-      <div class="text-sm leading-5 text-blue-900">
+      <div class="text-sm leading-5 text-blue-900 mb-2">
         {{ accommodation.name }}
+      </div>
+      <div class="text-sm leading-5 text-blue-900">
+        by {{ accommodation.User.email }}
       </div>
     </td>
     <td
@@ -92,11 +95,6 @@
     <td
       class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5"
     >
-      {{ accommodation.User.email }}
-    </td>
-    <td
-      class="px-6 py-4 whitespace-no-wrap border-b border-gray-500 text-blue-900 text-sm leading-5"
-    >
       {{ accommodation.location }}
     </td>
     <td
@@ -113,14 +111,14 @@
       class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-500 text-sm leading-5"
     >
       <button
-        class="mb-2 px-5 py-2 border-yellow-700 border text-yellow-600 rounded transition duration-300 hover:bg-yellow-800 hover:text-white focus:outline-none"
+        class="mb-2 w-28 px-5 py-2 border-yellow-700 border text-yellow-600 rounded transition duration-300 hover:bg-yellow-800 hover:text-white focus:outline-none"
         v-if="isAuthorized"
         @click="populateUpdateForm(accommodation.id)"
       >
         Edit
       </button>
       <button
-        class="px-5 py-2 border-red-700 border text-red-600 rounded transition duration-300 hover:bg-red-800 hover:text-white focus:outline-none"
+        class="px-5 w-28 py-2 border-red-700 border text-red-600 rounded transition duration-300 hover:bg-red-800 hover:text-white focus:outline-none"
         v-if="isAuthorized"
         @click="deleteAccommodation"
       >
