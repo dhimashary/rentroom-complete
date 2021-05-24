@@ -120,10 +120,10 @@ class UserController {
           password: process.env.DEFAULT_GOOGLE_PASSWORD,
           role: "staff",
         });
-      } else if (user.role !== "customer") {
+      } else if (user.role == "customer") {
         throw createError(
           401,
-          "Your account already registered as " + user.role
+          "Your account already registered as customer"
         );
       }
       const { id, email, role } = user;
