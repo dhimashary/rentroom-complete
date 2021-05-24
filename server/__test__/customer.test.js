@@ -48,6 +48,7 @@ describe("Customer Register/customers/login Routes Test", () => {
           expect(decoded).toHaveProperty("id", expect.any(Number));
           expect(decoded).toHaveProperty("email", userData.email);
           expect(decoded).toHaveProperty("role", "customer");
+          expect(body).toHaveProperty("avatar", `https://avatars.dicebear.com/api/bottts/d.svg?background=%230000ff`);
           done();
         })
         .catch((err) => {
@@ -177,6 +178,7 @@ describe("Customer Register/customers/login Routes Test", () => {
           expect(decoded).toHaveProperty("id", expect.any(Number));
           expect(decoded).toHaveProperty("email", userData.email);
           expect(decoded).toHaveProperty("role", "customer");
+          expect(body).toHaveProperty("avatar", `https://avatars.dicebear.com/api/bottts/d.svg?background=%230000ff`);
           done();
         })
         .catch((err) => {

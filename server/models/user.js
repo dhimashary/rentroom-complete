@@ -1,6 +1,8 @@
 "use strict";
 const { Model } = require("sequelize");
 const bcryptjs = require("bcryptjs");
+const axios = require("axios");
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
@@ -52,6 +54,10 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      avatar: {
+        type: DataTypes.STRING,
+        defaultValue: "https://avatars.dicebear.com/api/bottts/hardim.svg?background=%230000ff",
+      }
     },
     {
       sequelize,
@@ -59,9 +65,19 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   User.beforeCreate((user) => {
-    const salt = bcryptjs.genSaltSync(10);
-    const hashedPassword = bcryptjs.hashSync(user.password, salt);
-    user.password = hashedPassword;
+    try {
+      const username = user.email.split("@")[0]
+      console.log(username)
+      const salt = bcryptjs.genSaltSync(10);
+      const hashedPassword = bcryptjs.hashSync(user.password, salt);
+      user.password = hashedPassword;
+      if (user.role === "customer") {
+        user.avatar = `https://avatars.dicebear.com/api/bottts/${username}.svg?background=%230000ff`
+      }
+    } catch (error) {
+      console.log(error)
+      throw error;
+    }
   });
   return User;
 };
