@@ -1,5 +1,6 @@
 const { Accommodation, Type, User } = require("../models");
 const createError = require("http-errors");
+const jwt = require("jsonwebtoken");
 
 class AccommodationController {
   static create(req, res, next) {
@@ -34,6 +35,7 @@ class AccommodationController {
             attributes: ["id", "email"],
           },
         ],
+        updateBy: req.loggedInUser.email
       }
     )
       .then((accommodation) => {
@@ -90,7 +92,8 @@ class AccommodationController {
       where: {
         id: req.params.accommodationId,
       },
-      individualHooks: true
+      individualHooks: true,
+      updateBy: req.loggedInUser.email
     })
       .then((number) => {
         if (number === 0) {
@@ -114,6 +117,7 @@ class AccommodationController {
       price,
       typeId,
     } = req.body;
+    
     let updatedAccommodation = null;
     let type;
     Accommodation.update(
@@ -132,7 +136,8 @@ class AccommodationController {
         },
         returning: true,
         individualHooks: true,
-        from: "PUT"
+        from: "PUT",
+        updateBy: req.loggedInUser.email
       }
     )
       .then((accommodation) => {
@@ -178,7 +183,8 @@ class AccommodationController {
         },
         returning: true,
         individualHooks: true,
-        from: "PATCH"
+        from: "PATCH",
+        updateBy: req.loggedInUser.email
       }
     )
       .then((accommodation) => {

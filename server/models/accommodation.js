@@ -1,6 +1,5 @@
 "use strict";
 const { Model } = require("sequelize");
-const getCurrentTime = require("../helpers/getCurrentTime");
 const getHistoryFormat = require("../helpers/getHistoryFormat");
 const createError = require("http-errors");
 
@@ -15,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "authorId",
       });
       Accommodation.hasMany(models.Bookmark, {
-        foreignKey: "accommodationId"
+        foreignKey: "accommodationId",
       });
     }
   }
@@ -108,10 +107,9 @@ module.exports = (sequelize, DataTypes) => {
       modelName: "Accommodation",
     }
   );
-  Accommodation.afterCreate(async (accommodation) => {
+  Accommodation.afterCreate(async (accommodation, options) => {
     try {
-      const user = await accommodation.getUser();
-      const historyOption = getHistoryFormat(accommodation, user.email, {
+      const historyOption = getHistoryFormat(accommodation, options.updateBy, {
         status: "create",
       });
       await sequelize.models.History.create(historyOption);
@@ -123,12 +121,15 @@ module.exports = (sequelize, DataTypes) => {
   Accommodation.addHook(
     "afterDestroy",
     "writeDeleteHistory",
-    async (accommodation) => {
+    async (accommodation, options) => {
       try {
-        const user = await accommodation.getUser();
-        const historyOption = getHistoryFormat(accommodation, user.email, {
-          status: "delete",
-        });
+        const historyOption = getHistoryFormat(
+          accommodation,
+          options.updateBy,
+          {
+            status: "delete",
+          }
+        );
         await sequelize.models.History.create(historyOption);
       } catch (error) {
         throw error;
@@ -148,10 +149,9 @@ module.exports = (sequelize, DataTypes) => {
           description.oldStatus = accommodation._previousDataValues.status;
           description.newStatus = accommodation.status;
         }
-        const user = await accommodation.getUser();
         const historyOption = getHistoryFormat(
           accommodation,
-          user.email,
+          options.updateBy,
           description
         );
         await sequelize.models.History.create(historyOption);
