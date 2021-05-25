@@ -134,12 +134,12 @@ export default {
   data() {
     return {
       updatedAccommodation: {
-        name: "hehe",
+        name: "",
         roomCapacity: 1,
         typeId: null,
-        facility: "haha",
-        price: 1000,
-        location: "jakarta",
+        facility: "",
+        price: 0,
+        location: "",
         imgUrl: null
       },
       previewImage: null,
