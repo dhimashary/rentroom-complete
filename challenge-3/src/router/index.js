@@ -19,6 +19,11 @@ const routes = [
         name: 'Bookmarks',
         component: () => import(/* webpackChunkName: "Bookmarks" */ '../views/BookmarkList.vue'),
       },
+      {
+        path: 'accommodation/:id',
+        name: 'Accommodation Detail',
+        component: () => import(/* webpackChunkName: "SignUp" */ '../views/AccommodationDetail.vue'),
+      },
     ],
   },
   {
