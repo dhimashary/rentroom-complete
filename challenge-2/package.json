@@ -1,0 +1,25 @@
+{
+  "name": "challenge-2",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "assets": "^3.0.1",
+    "axios": "^0.21.1",
+    "vue": "^2.6.12",
+    "vue-google-login": "^2.0.5",
+    "vue-hot-reload-api": "^2.3.4",
+    "vue-toast-notification": "^0.6.1"
+  },
+  "devDependencies": {
+    "@vue/component-compiler-utils": "^3.2.0",
+    "vue-template-compiler": "^2.6.12"
+  }
+}
