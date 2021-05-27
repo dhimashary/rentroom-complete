@@ -4,6 +4,7 @@
   "main": "index.js",
   "scripts": {
     "start": "parcel index.html",
+    "build": "parcel index.html --no-minify",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -20,6 +21,8 @@
   },
   "devDependencies": {
     "@vue/component-compiler-utils": "^3.2.0",
+    "cssnano": "^5.0.4",
+    "postcss": "^8.3.0",
     "vue-template-compiler": "^2.6.12"
   }
 }
