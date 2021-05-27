@@ -1,6 +1,6 @@
 <template>
   <div
-    class="mx-auto px-4 w-2/4 lg:w-1/3 pb-6"
+    class="mx-auto px-4 w-full md:w-2/4 lg:w-1/3 pb-6"
   >
     <div
       @click="goDetail"

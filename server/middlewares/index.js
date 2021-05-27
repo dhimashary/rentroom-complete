@@ -1,11 +1,11 @@
 const errorHandler = require("./errorHandler")
 const Auth = require("./auth")
-const uploadImgur = require("./uploadImgur")
+const uploadImageKit = require("./uploadImageKit")
 const imageValidation = require("./imageValidation")
 
 module.exports = {
   Auth,
-  uploadImgur,
+  uploadImageKit,
   errorHandler,
   imageValidation
 }

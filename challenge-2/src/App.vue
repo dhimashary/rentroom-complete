@@ -43,7 +43,6 @@ export default {
   },
   methods: {
     changePage(page) {
-      console.log(page, "called");
       this.currentPage = page;
     },
     googleSignIn(googleToken) {

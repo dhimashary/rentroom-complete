@@ -114,7 +114,7 @@
           </div>
         </div>
         <div class="w-full md:w-1/3 relative rounded">
-          <div class="bg-white shadow-lg p-3">
+          <div class="bg-white shadow-lg p-3 mb-4">
             <div class="mb-2">
               <font-awesome-icon
                 class="cursor-pointer text-gray-700"
@@ -130,6 +130,12 @@
             <div class="text-gray-700 text-xs font-bold mb-2">
               19 May 2021 - 20 April 2022
             </div>
+          </div>
+          <div class="bg-white shadow-lg p-3">
+            <div class="text-lg font-bold text-gray-800 mb-2">
+              Share Qr Code
+            </div>
+            <img :src="accommodationDetail.qrcode" alt="qrcode">
           </div>
         </div>
       </div>
@@ -491,12 +497,7 @@ export default {
     },
   },
   created() {
-    const currentAccommodation = this.accommodations.filter((accommodation) => accommodation.id === this.$route.params.id);
-    if (currentAccommodation.length > 0) {
-      this.$store.commit('SET_ACCOMMODATION_DETAIL', currentAccommodation[0]);
-    } else {
-      this.$store.dispatch('fetchAccommodationDetail', this.$route.params.id);
-    }
+    this.$store.dispatch('fetchAccommodationDetail', this.$route.params.id);
   },
 };
 </script>

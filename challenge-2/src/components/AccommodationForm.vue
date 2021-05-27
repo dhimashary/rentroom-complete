@@ -208,6 +208,7 @@ export default {
         });
     },
     setImage(event) {
+      this.requestForm = new FormData();
       const file = event.target.files[0];
       if (
         file.type !== "image/jpeg" &&
@@ -232,6 +233,9 @@ export default {
       }
     },
   },
+  created() {
+    this.requestForm = new FormData();
+  }
 };
 </script>
 
