@@ -1,7 +1,9 @@
 module.exports = function(err, req, res, next){
-  console.log(err)
   let statusCode = 500
   let message = "Internal Server Error!"
+  if(err.response) {
+    message = "Image upload server is busy, please try again later"
+  }
   switch(err.name){
     case "SequelizeValidationError":
       statusCode = 400
