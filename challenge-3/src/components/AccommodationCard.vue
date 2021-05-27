@@ -1,6 +1,11 @@
 <template>
-  <div class="mx-auto px-4 w-2/4 lg:w-1/3 pb-6">
-    <div class="bg-white shadow-xl rounded-lg h-full flex flex-col tracking-wide">
+  <div
+    class="mx-auto px-4 w-2/4 lg:w-1/3 pb-6"
+  >
+    <div
+      @click="goDetail"
+      class="cursor-pointer hover:bg-blue-100 bg-white shadow-xl rounded-lg h-full flex flex-col tracking-wide"
+    >
       <img
         :src="accommodation.imgUrl"
         class="w-full h-2/5 rounded-lg rounded-b-none"
@@ -16,7 +21,9 @@
             class="ml-auto text-gray-500 cursor-pointer mt-1"
             :icon="['far', 'bookmark']"
             v-if="isLogin && !alreadyBookmarked"
-            @click="$store.dispatch('createBookmarks', { id: accommodation.id, })"
+            @click="
+              $store.dispatch('createBookmarks', { id: accommodation.id })
+            "
           />
         </span>
         <h2 class="font-bold text-lg text-gray-800 tracking-normal mb-1">
@@ -40,21 +47,6 @@
 export default {
   name: 'AccommodationCard',
   props: ['accommodation'],
-  // data() {
-  //   return {
-  //     accommodation: {
-  //       name: 'The Trans Luxury Hotel',
-  //       location: 'Jl. Gatot Subroto No. 289, Buahbatu, Bandung, Jawa Barat, Indonesia, 40273',
-  //       imgUrl: 'https://ik.imagekit.io/tvlk/apr-asset/dgXfoyh24ryQLRcGq00cIdKHRmotrWLNlvG-TxlcLxGkiDwaUSggleJNPRgIHCX6/hotel/asset/10002404-2060x1247-FIT_AND_TRIM-9ddbe436b041daf5b4d3138950821434.jpeg?tr=q-40,c-at_max,w-740,h-500&_src=imagekit',
-  //       Type: {
-  //         id: 1,
-  //         name: 'Hotel',
-  //       },
-  //       facility: 'AC, Restaurant, Swimming Pool, Parking, Wi-Fi',
-  //       price: 1900000,
-  //     },
-  //   };
-  // },
   computed: {
     getFormatedCurrency() {
       return `Rp. ${new Intl.NumberFormat('ID').format(
@@ -70,9 +62,11 @@ export default {
     getTypeBGColor() {
       if (this.accommodation.Type.name === 'Hotel') {
         return 'bg-blue-500';
-      } if (this.accommodation.Type.name === 'Apartment') {
+      }
+      if (this.accommodation.Type.name === 'Apartment') {
         return 'bg-yellow-500';
-      } if (this.accommodation.Type.name === 'Hostel') {
+      }
+      if (this.accommodation.Type.name === 'Hostel') {
         return 'bg-indigo-500';
       }
       return 'bg-green-500';
@@ -81,11 +75,18 @@ export default {
       return localStorage.access_token;
     },
     alreadyBookmarked() {
-      const bookmarked = this.$store.state.bookmarks.filter((item) => item.accommodationId === this.accommodation.id);
+      const bookmarked = this.$store.state.bookmarks.filter(
+        (item) => item.accommodationId === this.accommodation.id,
+      );
       if (bookmarked.length === 0) {
         return false;
       }
       return true;
+    },
+  },
+  methods: {
+    goDetail() {
+      this.$router.push({ name: 'Accommodation Detail', params: { id: this.accommodation.id } });
     },
   },
 };

@@ -36,7 +36,9 @@ function generateAccomodationRow(accommodation) {
     </td>
     <td>${User.email}</td>
     <td>${location}</td>
-    <td>Rp. ${price}</td>
+    <td>Rp. ${new Intl.NumberFormat('ID').format(
+      price,
+    )} </td>
     <td>${Type.name}</td>
     <td>
       ${availableAction}
@@ -153,6 +155,7 @@ async function showUpdateForm(id) {
     $("#imgUrl").text(imgUrl);
   } catch (error) {
     setAppNotif("alert-danger", "Oops Something is Wrong ! :(");
+    setAppNotifHide()
   }
 }
 
@@ -197,9 +200,13 @@ function setAppNotif(status, message) {
   notifId.show();
   content.addClass(status);
   content.text(message);
+  
+}
+
+function setAppNotifHide() {
   setTimeout(() => {
-    notifId.hide();
-  }, 20000);
+    $("#mainNotification").hide();
+  }, 2000);
 }
 
 function setImage(event) {
@@ -214,7 +221,7 @@ function setImage(event) {
     if (file.size > 262144) {
       event.target.value = "";
       setAppNotif("alert-danger", "Image size can't be more than 250 KB");
-     
+      setAppNotifHide()
     } else {
       formData.append("fileName", event.target.files[0].name);
       formData.append("accommodationImage", event.target.files[0]);

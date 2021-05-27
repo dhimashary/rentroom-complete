@@ -17,13 +17,16 @@ function updateAccommodation(id) {
   })
     .then(({ data }) => {
       setAppNotif("alert-success", "Update Accommodation Success");
-      toggleButtonAccommodationForm();
-      showMainPage();
+      setTimeout(() => {
+        toggleButtonAccommodationForm();
+        showMainPage();
+      }, 500)
     })
     .catch((err) => {
       setAppNotif("alert-danger", err.response.data.message);
     })
     .finally((_) => {
+      setAppNotifHide()
       updatedId = null;
       currentPage = null;
       $("#accommodationForm").trigger("reset");
@@ -45,11 +48,17 @@ function deleteAccommodation(id) {
       },
     })
       .then(({ data }) => {
-        showMainPage();
+        setAppNotif("alert-success", "Delete success");
+        setTimeout(() => {
+          showMainPage();
+        }, 500)
       })
       .catch((err) => {
         setAppNotif("alert-danger", err.response.data);
-      });
+      })
+      .finally(_ => {
+        setAppNotifHide()
+      })
   }
 }
 
@@ -65,6 +74,7 @@ async function getAccommodationById(id) {
     return accommodation.data;
   } catch (error) {
     setAppNotif("alert-danger", error.response.data);
+    setAppNotifHide()
   }
 }
 
@@ -93,6 +103,7 @@ function createNewAccommodation() {
   delete newAccommodation.imgUrl;
   if (formData.has("accommodationImage") === false) {
     setAppNotif("alert-danger", "Image must be provided");
+    setAppNotifHide()
   } else {
     for (let key in newAccommodation) {
       formData.append(key, newAccommodation[key]);
@@ -117,6 +128,7 @@ function createNewAccommodation() {
         setAppNotif("alert-danger", err.response.data.message);
       })
       .finally((_) => {
+        setAppNotifHide()
         $("#accommodationForm").trigger("reset");
         formData = new FormData();
         $("#fileInput").val(null);

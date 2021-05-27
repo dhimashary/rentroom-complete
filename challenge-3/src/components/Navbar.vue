@@ -1,7 +1,7 @@
 <template>
   <header class="flex items-center justify-between py-2 border-b">
     <span
-      @click="$router.push('accommodations')"
+      @click="$router.push('/')"
       class="px-2 lg:px-0 uppercase font-bold text-purple-800"
     >
       <img src="../assets/rent-logo.png" alt="" />
@@ -22,7 +22,7 @@
       </li>
       <li class="px-2 md:px-4" v-if="isLogin">
         <span
-          @click="$router.push('bookmarks').catch(() => {})"
+          @click="$router.push('/bookmarks').catch(() => {})"
           class="cursor-pointer font-semibold hover:text-indigo-700"
           :class="
             $route.name === 'Bookmarks' ? 'text-indigo-700' : 'text-gray-500'
@@ -33,7 +33,7 @@
       </li>
       <li class="px-2 md:px-4" v-if="!isLogin">
         <span
-          @click="$router.push('signin')"
+          @click="$router.push('/signin')"
           class="cursor-pointer text-gray-500 font-semibold hover:text-indigo-700"
         >
           Sign In
@@ -41,7 +41,7 @@
       </li>
       <li class="px-2 md:px-4" v-if="!isLogin">
         <span
-          @click="$router.push('signup')"
+          @click="$router.push('/signup')"
           class="cursor-pointer text-gray-500 font-semibold hover:text-indigo-700"
         >
           Sign Up

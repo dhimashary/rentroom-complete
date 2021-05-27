@@ -8,6 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     accommodations: [],
+    accommodationDetail: {},
     bookmarks: [],
     totalPage: 0,
     currentPage: 1,
@@ -19,6 +20,7 @@ export default new Vuex.Store({
       type: [],
     },
     loadingAccommodation: false,
+    loadingAccommodationDetail: false,
     loadingBookmark: false,
   },
   mutations: {
@@ -26,6 +28,9 @@ export default new Vuex.Store({
       state.accommodations = payload.rows;
       state.accommodationCount = payload.count;
       state.totalPage = Math.ceil(payload.count / 12);
+    },
+    SET_ACCOMMODATION_DETAIL(state, payload) {
+      state.accommodationDetail = payload;
     },
     SET_BOOKMARKS(state, payload) {
       state.bookmarks = payload;
@@ -61,6 +66,9 @@ export default new Vuex.Store({
     SET_LOADING_ACCOMMODATION(state, payload) {
       state.loadingAccommodation = payload;
     },
+    SET_LOADING_ACCOMMODATION_DETAIL(state, payload) {
+      state.loadingAccommodationDetail = payload;
+    },
     SET_LOADING_BOOKMARK(state, payload) {
       state.loadingBookmark = payload;
     },
@@ -94,6 +102,34 @@ export default new Vuex.Store({
           });
         })
         .finally(() => {
+          Vue.$toast.clear();
+        });
+    },
+    fetchAccommodationDetail(context, id) {
+      context.commit('SET_LOADING_ACCOMMODATION_DETAIL', true);
+      Vue.$toast.open({
+        message: 'Loading Available Accommodation, Please Wait',
+        type: 'info',
+        duration: 0,
+        position: 'top-right',
+      });
+      customerApi({
+        method: 'GET',
+        url: `/accommodations/${id}`,
+      })
+        .then(({ data }) => {
+          context.commit('SET_ACCOMMODATION_DETAIL', data);
+        })
+        .catch((err) => {
+          Vue.$toast.open({
+            type: 'error',
+            duration: 2000,
+            message: err.response.data.message,
+            position: 'top-right',
+          });
+        })
+        .finally(() => {
+          context.commit('SET_LOADING_ACCOMMODATION_DETAIL', false);
           Vue.$toast.clear();
         });
     },
