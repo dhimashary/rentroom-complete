@@ -32,7 +32,7 @@ class Auth {
       req.loggedInUser.role !== "staff" &&
       req.loggedInUser.role !== "admin"
     ) {
-      next(createError(401, "Access Unauthorized"));
+      next(createError(403, "Access Unauthorized"));
     } else {
       next()
     }
@@ -47,18 +47,18 @@ class Auth {
           if (accommodation.authorId === req.loggedInUser.id) {
             next();
           } else {
-            next(createError(401, "Access Unauthorized"));
+            next(createError(403, "Access Unauthorized"));
           }
         })
         .catch(next);
     } else {
-      next(createError(401, "Access Unauthorized"));
+      next(createError(403, "Access Unauthorized"));
     }
   }
 
   static authorizationAdminOnly(req, res, next) {
     if (req.loggedInUser.role !== "admin") {
-      next(createError(401, "Access Unauthorized"));
+      next(createError(403, "Access Unauthorized"));
     } else {
       next();
     }
@@ -66,7 +66,7 @@ class Auth {
 
   static authorizationCustomerOnly(req, res, next) {
     if (req.loggedInUser.role !== "customer") {
-      next(createError(401, "Access Unauthorized"));
+      next(createError(403, "Access Unauthorized"));
     } else {
       next();
     }
