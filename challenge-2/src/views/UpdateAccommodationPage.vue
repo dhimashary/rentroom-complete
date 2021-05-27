@@ -1,6 +1,7 @@
 <template>
   <div class="w-5/6 flex flex-col">
     <UpdateAccommodationForm
+      @changePage="changePage"
       @dataUpdated="dataUpdated"
       :accommodationId="accommodationId"
       :types="types"
@@ -20,6 +21,9 @@ export default {
     dataUpdated(data) {
       this.$emit("dataUpdated", data);
     },
+    changePage() {
+      this.$emit("changePage", "AccommodationPage");
+    }
   },
 };
 </script>

@@ -140,7 +140,7 @@ export default {
         facility: "",
         price: 0,
         location: "",
-        imgUrl: null
+        imgUrl: null,
       },
       previewImage: null,
       requestForm: new FormData(),
@@ -173,40 +173,32 @@ export default {
         })
         .catch((err) => {
           this.$toast.error(err.response.data.message);
+          this.$emit("changePage");
         })
-        .finally(_ => {
+        .finally((_) => {
           setTimeout(() => {
-            this.$toast.clear()
-          }, 2000)
-        })
-    },
-    setImage(event) {
-      this.updateAccommodation.imgUrl = null
-      this.requestForm.append("fileName", event.target.files[0].name);
-      this.requestForm.append("accommodationImage", event.target.files[0]);
-      const reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]);
-      reader.onload = (e) => {
-        this.previewImage = e.target.result;
-      };
+            this.$toast.clear();
+          }, 3000);
+        });
     },
     setImage(event) {
       const file = event.target.files[0];
+      this.requestForm = new FormData();
       if (
         file.type !== "image/jpeg" &&
         file.type !== "image/jpg" &&
         file.type !== "image/png"
       ) {
-        this.previewImage = this.updateAccommodation.imgUrl
-        event.target.value = ""
-        this.$toast.error("Only jpeg/jpg/png format allowed for image")
+        this.previewImage = this.updateAccommodation.imgUrl;
+        event.target.value = "";
+        this.$toast.error("Only jpeg/jpg/png format allowed for image");
       } else {
         if (file.size > 262144) {
-          this.previewImage = this.updateAccommodation.imgUrl
-          event.target.value = ""
-          this.$toast.error("Maximum file size is 256KB")
+          this.previewImage = this.updateAccommodation.imgUrl;
+          event.target.value = "";
+          this.$toast.error("Maximum file size is 256KB");
         } else {
-          this.updateAccommodation.imgUrl = null
+          this.updateAccommodation.imgUrl = null;
           this.requestForm.append("fileName", file.name);
           this.requestForm.append("accommodationImage", file);
           const reader = new FileReader();
@@ -239,20 +231,21 @@ export default {
             facility: data.facility,
             price: data.price,
             location: data.location,
-            imgUrl: data.imgUrl
+            imgUrl: data.imgUrl,
           };
         })
         .catch((err) => {
           this.$toast.open({
             message: err.response.data.message,
-            type: "error"
+            type: "error",
           });
         });
     },
   },
-  created () {
-    this.populateForm()
-  }
+  created() {
+    this.populateForm();
+    this.requestForm = new FormData();
+  },
 };
 </script>
 

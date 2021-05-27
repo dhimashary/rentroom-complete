@@ -19,6 +19,7 @@
     <UpdateAccommodationPage
       v-else-if="currentPage === 'UpdateAccommodationPage'"
       @dataUpdated="dataUpdated"
+      @changePage="changePage"
       :accommodationId="populateUpdateId"
       :types="types"
     >
