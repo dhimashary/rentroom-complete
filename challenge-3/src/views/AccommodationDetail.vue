@@ -497,12 +497,7 @@ export default {
     },
   },
   created() {
-    const currentAccommodation = this.accommodations.filter((accommodation) => accommodation.id === this.$route.params.id);
-    if (currentAccommodation.length > 0) {
-      this.$store.commit('SET_ACCOMMODATION_DETAIL', currentAccommodation[0]);
-    } else {
-      this.$store.dispatch('fetchAccommodationDetail', this.$route.params.id);
-    }
+    this.$store.dispatch('fetchAccommodationDetail', this.$route.params.id);
   },
 };
 </script>
