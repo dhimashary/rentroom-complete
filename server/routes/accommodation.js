@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { Auth, uploadImgur, imageValidation } = require("../middlewares");
+const { Auth, uploadImageKit, imageValidation } = require("../middlewares");
 const { AccommodationController } = require("../controllers/index");
 const upload = require("multer")({
 });
@@ -11,7 +11,7 @@ router.post(
   Auth.authorizationAdminOrStaff,
   upload.single("accommodationImage"),
   imageValidation,
-  uploadImgur,
+  uploadImageKit,
   AccommodationController.create
 );
 router.delete(
@@ -24,7 +24,7 @@ router.put(
   Auth.authorizationAdminOrAuthor,
   upload.single("accommodationImage"),
   imageValidation,
-  uploadImgur,
+  uploadImageKit,
   AccommodationController.update
 );
 router.patch(
