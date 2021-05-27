@@ -1,6 +1,6 @@
 const router = require("express").Router();
-const { AccommodationCustomerController, AccommodationController } = require("../controllers/index");
+const { AccommodationCustomerController } = require("../controllers/index");
 
 router.get("/", AccommodationCustomerController.findAll);
-router.get("/:accommodationId", AccommodationController.findById);
+router.get("/:accommodationId", AccommodationCustomerController.findById);
 module.exports = router
