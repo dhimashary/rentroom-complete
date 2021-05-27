@@ -119,7 +119,6 @@ export default new Vuex.Store({
       })
         .then(({ data }) => {
           context.commit('SET_ACCOMMODATION_DETAIL', data);
-          context.commit('SET_LOADING_ACCOMMODATION_DETAIL', false);
         })
         .catch((err) => {
           Vue.$toast.open({
@@ -130,6 +129,7 @@ export default new Vuex.Store({
           });
         })
         .finally(() => {
+          context.commit('SET_LOADING_ACCOMMODATION_DETAIL', false);
           Vue.$toast.clear();
         });
     },
