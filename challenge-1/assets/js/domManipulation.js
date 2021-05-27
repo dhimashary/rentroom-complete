@@ -36,7 +36,9 @@ function generateAccomodationRow(accommodation) {
     </td>
     <td>${User.email}</td>
     <td>${location}</td>
-    <td>Rp. ${price}</td>
+    <td>Rp. ${new Intl.NumberFormat('ID').format(
+      price,
+    )} </td>
     <td>${Type.name}</td>
     <td>
       ${availableAction}
