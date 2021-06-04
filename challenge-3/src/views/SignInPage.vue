@@ -139,6 +139,13 @@ export default {
       this.$toast.error('Oops something wrong');
     },
   },
+  beforeRouteEnter(to, from, next) {
+    if (localStorage.getItem('access_token')) {
+      next('/');
+    } else {
+      next();
+    }
+  },
 };
 </script>
 

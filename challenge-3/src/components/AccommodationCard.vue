@@ -18,7 +18,8 @@
             {{ accommodation.Type.name }}
           </span>
           <font-awesome-icon
-            class="ml-auto text-gray-500 cursor-pointer mt-1"
+            :id="`bookmark-${accommodation.id}`"
+            class="ml-auto text-gray-500 cursor-pointer mt-1 mb-2 mr-2 hover:text-yellow-500 font-semibold"
             :icon="['far', 'bookmark']"
             v-if="isLogin && !alreadyBookmarked"
             @click="
@@ -85,8 +86,11 @@ export default {
     },
   },
   methods: {
-    goDetail() {
-      this.$router.push({ name: 'Accommodation Detail', params: { id: this.accommodation.id } });
+    goDetail(event) {
+      console.log(event.target.id);
+      if (!event.target.id.includes('bookmark')) {
+        this.$router.push({ name: 'Accommodation Detail', params: { id: this.accommodation.id } });
+      }
     },
   },
 };
