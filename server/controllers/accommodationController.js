@@ -117,7 +117,7 @@ class AccommodationController {
       price,
       typeId,
     } = req.body;
-    
+
     let updatedAccommodation = null;
     let type;
     Accommodation.update(

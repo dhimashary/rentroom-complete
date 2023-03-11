@@ -205,12 +205,12 @@ export default new Vuex.Store({
     },
     fetchBookmarks(context) {
       context.commit('SET_LOADING_BOOKMARK', true);
-      // Vue.$toast.open({
-      //   message: 'Loading Your Bookmark, Please Wait',
-      //   type: 'info',
-      //   duration: 0,
-      //   position: 'top-right',
-      // });
+      Vue.$toast.open({
+        message: 'Loading Your Bookmark, Please Wait',
+        type: 'info',
+        duration: 0,
+        position: 'top-right',
+      });
       customerApi({
         method: 'GET',
         url: '/bookmarks',

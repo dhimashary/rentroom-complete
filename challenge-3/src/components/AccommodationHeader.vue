@@ -22,7 +22,7 @@
         </h2>
         <div class="flex mt-3">
           <img
-            src="https://images-na.ssl-images-amazon.com/images/M/MV5BODFjZTkwMjItYzRhMS00OWYxLWI3YTUtNWIzOWQ4Yjg4NGZiXkEyXkFqcGdeQXVyMTQ0ODAxNzE@._V1_UX172_CR0,0,172,256_AL_.jpg"
+            src="https://media.licdn.com/dms/image/C5103AQEWhtap6HtYNg/profile-displayphoto-shrink_800_800/0/1549250666346?e=2147483647&v=beta&t=URl8b_rIbutLXWoGvqQIDqy6_zysZ71A7klWmGBfDRc"
             class="h-10 w-10 rounded-full mr-2 object-cover"
           />
           <div>
@@ -33,10 +33,7 @@
       </div>
     </span>
 
-    <span
-      class="w-full md:w-1/3 relative rounded"
-      style="height: 24em"
-    >
+    <span class="w-full md:w-1/3 relative rounded" style="height: 24em">
       <div class="absolute left-0 top-0 w-full h-full z-10 image-shadow"></div>
       <img
         src="https://santorinidave.com/wp-content/uploads/2017/03/best-hotel-in-sanur-bali-segara-village.jpg"
@@ -52,7 +49,7 @@
         </h2>
         <div class="flex mt-3">
           <img
-            src="https://images-na.ssl-images-amazon.com/images/M/MV5BODFjZTkwMjItYzRhMS00OWYxLWI3YTUtNWIzOWQ4Yjg4NGZiXkEyXkFqcGdeQXVyMTQ0ODAxNzE@._V1_UX172_CR0,0,172,256_AL_.jpg"
+            src="https://media.licdn.com/dms/image/C5103AQEWhtap6HtYNg/profile-displayphoto-shrink_800_800/0/1549250666346?e=2147483647&v=beta&t=URl8b_rIbutLXWoGvqQIDqy6_zysZ71A7klWmGBfDRc"
             class="h-10 w-10 rounded-full mr-2 object-cover"
           />
           <div>
@@ -72,7 +69,11 @@ export default {
 </script>
 
 <style scoped>
-  .image-shadow {
-    background-image: linear-gradient(180deg,transparent,rgba(0,0,0,.7)) !important
-  }
+.image-shadow {
+  background-image: linear-gradient(
+    180deg,
+    transparent,
+    rgba(0, 0, 0, 0.7)
+  ) !important;
+}
 </style>

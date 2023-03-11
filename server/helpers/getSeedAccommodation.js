@@ -1,14 +1,14 @@
 module.exports = function (adminId) {
-  const newDate = new Date()
-  const createdAt = newDate
-  const updatedAt = newDate
+  const newDate = new Date();
+  const createdAt = newDate;
+  const updatedAt = newDate;
   return [
     {
       name: "Hotel Grand Surabaya",
       facility: "AC, King Size Bed, Wifi, free vallet",
       roomCapacity: 6,
       imgUrl:
-        "https://dereizvilla.com/wp-content/uploads/2017/11/IMG-20200706-WA0020-1110x623.jpg",
+        "https://lh3.googleusercontent.com/proxy/_utcrmyf3z99m7YvzVrU_G8DJGtc8knCk8Eg7_KHuuXuGUYYx30TL9tdJRmvGFI_A_oi6QkrTnViUHyIECX1BUPNZA2imWiOOv5dLLg_EeM77aFjTc3zYO5046lBcmJTOBrgXrtXirgxTZ7kbKCJA9Vno6SrHis=w592-h404-n-k-rw-no-v1",
       location: "Resort Dago Pakar, 41091 Bandung",
       price: 190000,
       typeId: 3,
@@ -190,7 +190,7 @@ module.exports = function (adminId) {
       facility: "Bobobox Pods Kota Tua menawarkan kamar-kamar dengan AC dan lounge bersama. Akomodasi dengan Wi-Fi gratis ini berjarak 3,5 km dari Dunia Fantasi dan 5 km dari Masjid Istiqlal.",
       roomCapacity: 10,
       imgUrl:
-        "https://cf.bstatic.com/images/hotel/max1280x900/246/246885237.jpg?hp=1",
+        "https://cf.bstatic.com/images/hotel/max1280x900/238/238505311.jpg?hp=1",
       location: "Jl. Taman Fatahillah No.3, RT.7/RW.7, Kel. Pinangsia, Kec. Taman Sari, 11110 Jakarta",
       price: 2113200,
       typeId: 4,

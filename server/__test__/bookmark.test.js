@@ -145,7 +145,7 @@ describe("Bookmark Accommodation Test", () => {
           done(err);
         });
     });
-    test("401 Failed to get Bookmark if access_token provided is not from customer role", (done) => {
+    test("403 Failed to get Bookmark if access_token provided is not from customer role", (done) => {
       request(app)
         .post("/customers/bookmarks")
         .set({
@@ -153,7 +153,7 @@ describe("Bookmark Accommodation Test", () => {
         })
         .then((response) => {
           const { body, status } = response;
-          expect(status).toBe(401);
+          expect(status).toBe(403);
           expect(body).toHaveProperty("message", "Access Unauthorized");
           done();
         })
@@ -230,7 +230,7 @@ describe("Bookmark Accommodation Test", () => {
           done(err);
         });
     });
-    test("401 Failed to Bookmark if access_token provided is not from customer role", (done) => {
+    test("403 Failed to Bookmark if access_token provided is not from customer role", (done) => {
       request(app)
         .post("/customers/bookmarks")
         .set({
@@ -239,7 +239,7 @@ describe("Bookmark Accommodation Test", () => {
         .send({ accommodationId: 1 })
         .then((response) => {
           const { body, status } = response;
-          expect(status).toBe(401);
+          expect(status).toBe(403);
           expect(body).toHaveProperty("message", "Access Unauthorized");
           done();
         })

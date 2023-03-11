@@ -26,7 +26,7 @@
               </h2>
               <div class="flex mt-3">
                 <img
-                  src="https://images-na.ssl-images-amazon.com/images/M/MV5BODFjZTkwMjItYzRhMS00OWYxLWI3YTUtNWIzOWQ4Yjg4NGZiXkEyXkFqcGdeQXVyMTQ0ODAxNzE@._V1_UX172_CR0,0,172,256_AL_.jpg"
+                  src="https://media.licdn.com/dms/image/C5103AQEWhtap6HtYNg/profile-displayphoto-shrink_800_800/0/1549250666346?e=2147483647&v=beta&t=URl8b_rIbutLXWoGvqQIDqy6_zysZ71A7klWmGBfDRc"
                   class="h-10 w-10 rounded-full mr-2 object-cover"
                 />
                 <div>
@@ -61,19 +61,12 @@
       </div>
       <div class="bg-white p-4 shadow mb-4 flex">
         <div class="w-full md:w-2/3">
-          <div class="text-xl mb-2">
-            RentRoom
-          </div>
+          <div class="text-xl mb-2">RentRoom</div>
           <div class="text-yellow-500 font-bold text-xl mb-1">
-            <font-awesome-icon
-              class="cursor-pointer"
-              :icon="['fas', 'star']"
-            />
+            <font-awesome-icon class="cursor-pointer" :icon="['fas', 'star']" />
             9.8 Impressive
           </div>
-          <div class="text-gray-700">
-            From 593 Users
-          </div>
+          <div class="text-gray-700">From 593 Users</div>
         </div>
         <div class="w-full md:1/3">
           <div class="flex justify-end mb-2">
@@ -94,8 +87,10 @@
         <div
           class="mb-4 md:mb-0 w-full md:w-2/3 relative rounded inline-block p-3"
         >
-        <div class="mb-6">
-            <h1 class="text-lg text-indigo-700 font-semibold mb-2">Room Capacity</h1>
+          <div class="mb-6">
+            <h1 class="text-lg text-indigo-700 font-semibold mb-2">
+              Room Capacity
+            </h1>
             <p class="text-gray-700">
               {{ accommodationDetail.roomCapacity }} person
             </p>
@@ -135,12 +130,16 @@
             <div class="text-lg font-bold text-gray-800 mb-2">
               Share Qr Code
             </div>
-            <img :src="accommodationDetail.qrcode" alt="qrcode">
+            <img :src="accommodationDetail.qrcode" alt="qrcode" />
           </div>
         </div>
       </div>
     </div>
-    <div class="w-full flex flex-row flex-wrap" style="height: 50vh;" v-else-if="isLoading === true">
+    <div
+      class="w-full flex flex-row flex-wrap"
+      style="height: 50vh"
+      v-else-if="isLoading === true"
+    >
       <div
         class="container flex flex-col md:flex-row items-center justify-center px-5 text-gray-700"
       >
@@ -307,13 +306,13 @@
         </div>
       </div>
     </div>
-    <div class="w-full flex flex-row flex-wrap" style="height: 50vh;" v-else>
+    <div class="w-full flex flex-row flex-wrap" style="height: 50vh" v-else>
       <div
         class="container flex flex-col md:flex-row items-center justify-center px-5 text-gray-700"
       >
         <div class="max-w-md">
           <p class="text-2xl md:text-3xl font-light leading-normal">
-            Cannot Find Accommodation with ID {{$route.params.id}}
+            Cannot Find Accommodation with ID {{ $route.params.id }}
           </p>
         </div>
         <div class="max-w-lg">
@@ -518,106 +517,106 @@ export default {
   position: relative;
   text-align: right;
 }
- .cls-1 {
-    fill: #d6b49a;
-  }
-  .cls-1,
-  .cls-10,
-  .cls-11,
-  .cls-13,
-  .cls-14,
-  .cls-15,
-  .cls-17,
-  .cls-2,
-  .cls-4,
-  .cls-5,
-  .cls-6 {
-    stroke: #000;
-  }
-  .cls-1,
-  .cls-11,
-  .cls-13,
-  .cls-14,
-  .cls-16,
-  .cls-8 {
-    stroke-linecap: round;
-    stroke-linejoin: round;
-  }
-  .cls-1,
-  .cls-10,
-  .cls-11,
-  .cls-12,
-  .cls-13,
-  .cls-14,
-  .cls-15,
-  .cls-16,
-  .cls-17,
-  .cls-2,
-  .cls-3,
-  .cls-4,
-  .cls-5,
-  .cls-6,
-  .cls-7,
-  .cls-8,
-  .cls-9 {
-    stroke-width: 3px;
-  }
-  .cls-2 {
-    fill: #020202;
-  }
-  .cls-10,
-  .cls-12,
-  .cls-15,
-  .cls-17,
-  .cls-2,
-  .cls-3,
-  .cls-4,
-  .cls-5,
-  .cls-6,
-  .cls-7,
-  .cls-9 {
-    stroke-miterlimit: 10;
-  }
-  .cls-3 {
-    fill: #818181;
-  }
-  .cls-12,
-  .cls-16,
-  .cls-3,
-  .cls-7,
-  .cls-8,
-  .cls-9 {
-    stroke: #191818;
-  }
-  .cls-4 {
-    fill: #dcdbda;
-  }
-  .cls-5 {
-    fill: #4ea7f1;
-  }
-  .cls-14,
-  .cls-6 {
-    fill: #f8f3ed;
-  }
-  .cls-16,
-  .cls-7 {
-    fill: #333;
-  }
-  .cls-13,
-  .cls-8 {
-    fill: none;
-  }
-  .cls-9 {
-    fill: #f8f59c;
-  }
-  .cls-10,
-  .cls-11 {
-    fill: #f3d2c9;
-  }
-  .cls-15 {
-    fill: #8bb174;
-  }
-  .cls-17 {
-    fill: #da4e22;
-  }
+.cls-1 {
+  fill: #d6b49a;
+}
+.cls-1,
+.cls-10,
+.cls-11,
+.cls-13,
+.cls-14,
+.cls-15,
+.cls-17,
+.cls-2,
+.cls-4,
+.cls-5,
+.cls-6 {
+  stroke: #000;
+}
+.cls-1,
+.cls-11,
+.cls-13,
+.cls-14,
+.cls-16,
+.cls-8 {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.cls-1,
+.cls-10,
+.cls-11,
+.cls-12,
+.cls-13,
+.cls-14,
+.cls-15,
+.cls-16,
+.cls-17,
+.cls-2,
+.cls-3,
+.cls-4,
+.cls-5,
+.cls-6,
+.cls-7,
+.cls-8,
+.cls-9 {
+  stroke-width: 3px;
+}
+.cls-2 {
+  fill: #020202;
+}
+.cls-10,
+.cls-12,
+.cls-15,
+.cls-17,
+.cls-2,
+.cls-3,
+.cls-4,
+.cls-5,
+.cls-6,
+.cls-7,
+.cls-9 {
+  stroke-miterlimit: 10;
+}
+.cls-3 {
+  fill: #818181;
+}
+.cls-12,
+.cls-16,
+.cls-3,
+.cls-7,
+.cls-8,
+.cls-9 {
+  stroke: #191818;
+}
+.cls-4 {
+  fill: #dcdbda;
+}
+.cls-5 {
+  fill: #4ea7f1;
+}
+.cls-14,
+.cls-6 {
+  fill: #f8f3ed;
+}
+.cls-16,
+.cls-7 {
+  fill: #333;
+}
+.cls-13,
+.cls-8 {
+  fill: none;
+}
+.cls-9 {
+  fill: #f8f59c;
+}
+.cls-10,
+.cls-11 {
+  fill: #f3d2c9;
+}
+.cls-15 {
+  fill: #8bb174;
+}
+.cls-17 {
+  fill: #da4e22;
+}
 </style>

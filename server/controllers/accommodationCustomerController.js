@@ -56,11 +56,11 @@ class AccommodationCustomerController {
         if (result === null) {
           throw createError(404, "Accommodation not found !");
         }
-        const { data } = await axios({
-          method: "GET",
-          url: `https://api.happi.dev/v1/qrcode?data=https://rentroom.techindonesia.online/accommodation/${req.params.accommodationId}&width=&dots=000000&bg=FFFFFF&apikey=${process.env.HAPPIDEV_QR_KEY}`,
-        });
-        result.dataValues.qrcode = data.qrcode;
+        // const { data } = await axios({
+        //   method: "GET",
+        //   url: `https://api.happi.dev/v1/qrcode?data=https://rentroom.techindonesia.online/accommodation/${req.params.accommodationId}&width=&dots=000000&bg=FFFFFF&apikey=${process.env.HAPPIDEV_QR_KEY}`,
+        // });
+        result.dataValues.qrcode = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png";
         res.status(200).json(result);
       })
       .catch(next);
