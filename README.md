@@ -1,1 +1,1 @@
-# p2-demo-reborn-challenge
+# p2-demo-challenge
