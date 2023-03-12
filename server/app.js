@@ -20,6 +20,12 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "Server is running",
+    repository: "https://github.com/dhimashary/rentroom-complete"
+  });
+});
 app.use("/users/", userRoutes);
 app.use("/types", typeRoutes);
 app.use("/customers/accommodations/", accommodationCustomerRoutes);
