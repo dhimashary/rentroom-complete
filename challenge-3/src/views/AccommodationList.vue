@@ -200,9 +200,9 @@
         v-else-if="isLoading"
       >
         <iframe
-          src="https://giphy.com/embed/5AtXMjjrTMwvK"
-          width="480"
-          height="480"
+          src="https://cdn.dribbble.com/users/1787505/screenshots/7300251/media/a351d9e0236c03a539181b95faced9e0.gif"
+          width="200"
+          height="200"
           frameBorder="0"
           class="giphy-embed"
           allowFullScreen
