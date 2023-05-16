@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --detectOpenHandles --runInBand --forceExit",
+    "test": "jest --runInBand --verbose --silent --forceExit",
     "dev": "nodemon http/server.js",
     "start": "node http/server.js"
   },
